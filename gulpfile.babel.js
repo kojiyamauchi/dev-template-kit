@@ -36,9 +36,7 @@ import sftp from 'gulp-sftp' // sftp plugin.
 import browserSync from 'browser-sync' // browserSync.
 // Setting.
 const autoprefixerSet = ['last 2 version', 'ie >= 10', 'iOS >= 8', 'Android >= 4.4'] // setting of autoprefixer.
-const postCssPlugIn = [autoprefixer({
-  browsers: autoprefixerSet
-}), flexbug] // PostCSS plugin.
+const postCssPlugIn = [autoprefixer({ browsers: autoprefixerSet }), flexbug] // PostCSS plugin.
 const addImgDir = ('addImages/*') // added image fold,
 const dstImgDir = ('images/*') // compression image fold,
 const upLoadFileWrite = (['*.html', 'css/app.min.css', 'js/core.min.js', 'images/*']) // upload file.
@@ -144,7 +142,7 @@ gulp.task('svgMin', () => {
     .pipe(gulp.dest(dstImgDir))
 })
 
-// HTML File Rename PHP File. Setting at The Work Start.
+// File Rename Task.
 gulp.task('rename', () => {
   return gulp.src('index.html')
     .pipe(rename({
@@ -153,7 +151,7 @@ gulp.task('rename', () => {
     .pipe(gulp.dest('.'))
 })
 
-// HTML File & .DS_Store Delete. Setting at The Work Start.
+// File Delete Task..
 gulp.task('delete', (cb) => {
   return del(['**/.DS_Store'], cb)
 })
@@ -199,7 +197,7 @@ gulp.task('ftpUpLoad', () => {
 
 // gulp default task, terminal command 'gulp'.
 gulp.task('default', ['browserSync'], () => { // first task, local server connect & local browser sync.
-  // Select a task according to the project.
+  // ↓Select a task according to the project. プロジェクトで使用するタスクを選択しましょう。↓
   //gulp.watch(['base/*', 'tags/*', 'three/*'], ['webpack']) // JS File webpack.
   //gulp.watch(['js/_core.js'], ['concat']) // JS File Concatenate.
   //gulp.watch('js/core.js', ['jsmin']) // watching change's JS flie, File Compression.
@@ -208,8 +206,8 @@ gulp.task('default', ['browserSync'], () => { // first task, local server connec
   //gulp.watch('ejs/*', ['ejs']) // watch ejs.
   //gulp.watch('**/*.html', ['prettify']) // watch prettify.
   //gulp.watch(addImgDir, ['imgMin', 'svgMin']) // watching Img Dir compression.
-  //gulp.watch('**/*', ['rename']) // watching change's HTML flie. Rename PHP file.
-  //gulp.watch('**/*', ['delete']) // watching rename PHP file. delet HTML file.
+  //gulp.watch('**/*', ['rename']) // watching Rename Task.
+  //gulp.watch('**/*', ['delete']) // watching Delete Task.
   //gulp.watch(upLoadFile, ['ftpUpLoad']) // watching file save's auto ftp upload.
   gulp.watch(upLoadFile, ['localBrowserReload']) // watching file save's local browser reload.
 })
