@@ -151,7 +151,7 @@ gulp.task('rename', () => {
     .pipe(gulp.dest('.'))
 })
 
-// File Delete Task..
+// File Delete Task.
 gulp.task('delete', (cb) => {
   return del(['**/.DS_Store'], cb)
 })
