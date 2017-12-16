@@ -33,11 +33,12 @@ import svgMin from 'gulp-svgmin' // svg compression.
 import ftp from 'vinyl-ftp' // ftp plugin.
 import sftp from 'gulp-sftp' // sftp plugin.
 // For BrowserSync.
-import using_PHP_LocalServerConnect from 'gulp-connect-php' // using php local server connect.
 import browserSync from 'browser-sync' // browserSync.
 // Setting.
 const autoprefixerSet = ['last 2 version', 'ie >= 10', 'iOS >= 8', 'Android >= 4.4'] // setting of autoprefixer.
-const postCssPlugIn = [autoprefixer({ browsers: autoprefixerSet }), flexbug] // PostCSS plugin.
+const postCssPlugIn = [autoprefixer({
+  browsers: autoprefixerSet
+}), flexbug] // PostCSS plugin.
 const addImgDir = ('addImages/*') // added image fold,
 const dstImgDir = ('images/*') // compression image fold,
 const upLoadFileWrite = (['*.html', 'css/app.min.css', 'js/core.min.js', 'images/*']) // upload file.
@@ -159,17 +160,19 @@ gulp.task('delete', (cb) => {
 
 // local browser connect & sync.
 gulp.task('browserSync', () => {
-  return using_PHP_LocalServerConnect.server({
-    port: 8080,
-    bin: '/Applications/MAMP/bin/php/php5.6.10/bin/php', // PHP pass.
-    ini: '/Applications/MAMP/bin/php/php5.6.10/conf/php.ini' // PHP.ini pass.
-  }, () => {
-    return browserSync({
-      proxy: 'localhost:8080',
-      notify: false,
-      browser: 'google chrome'
-    })
-  })
+  return browserSync({
+    browser: 'google chrome',
+    notify: false,
+    /* if setting proxy.
+    proxy: 'test.dev or localhost:8080'
+    */
+    /* if setting root.
+    server: {
+      baseDir: '.',
+      index: 'index.html'
+    }
+    */
+  });
 })
 
 // file save's local browser reload.
@@ -196,16 +199,17 @@ gulp.task('ftpUpLoad', () => {
 
 // gulp default task, terminal command 'gulp'.
 gulp.task('default', ['browserSync'], () => { // first task, local server connect & local browser sync.
-  gulp.watch(['base/*', 'tags/*', 'three/*'], ['webpack']) // JS File webpack.
-  gulp.watch(['js/_core.js'], ['concat']) // JS File Concatenate.
-  gulp.watch('js/core.js', ['jsmin']) // watching change's JS flie, File Compression.
-  gulp.watch('sass/app.scss', ['sass']) // watching sass file save's auto compile & add vendor prefix automatically.
-  gulp.watch('css/app.css', ['cssmin']) // watching change's CSS flie, File Compression.
-  gulp.watch('ejs/*', ['ejs']) // watch ejs.
-  gulp.watch('**/*.html', ['prettify']) // watch prettify.
-  gulp.watch(addImgDir, ['imgMin', 'svgMin']) // watching Img Dir compression.
-  gulp.watch('**/*', ['rename']) // watching change's HTML flie. Rename PHP file.
-  gulp.watch('**/*', ['delete']) // watching rename PHP file. delet HTML file.
-  gulp.watch(upLoadFile, ['ftpUpLoad']) // watching file save's auto ftp upload.
+  // Select a task according to the project.
+  //gulp.watch(['base/*', 'tags/*', 'three/*'], ['webpack']) // JS File webpack.
+  //gulp.watch(['js/_core.js'], ['concat']) // JS File Concatenate.
+  //gulp.watch('js/core.js', ['jsmin']) // watching change's JS flie, File Compression.
+  //gulp.watch('sass/app.scss', ['sass']) // watching sass file save's auto compile & add vendor prefix automatically.
+  //gulp.watch('css/app.css', ['cssmin']) // watching change's CSS flie, File Compression.
+  //gulp.watch('ejs/*', ['ejs']) // watch ejs.
+  //gulp.watch('**/*.html', ['prettify']) // watch prettify.
+  //gulp.watch(addImgDir, ['imgMin', 'svgMin']) // watching Img Dir compression.
+  //gulp.watch('**/*', ['rename']) // watching change's HTML flie. Rename PHP file.
+  //gulp.watch('**/*', ['delete']) // watching rename PHP file. delet HTML file.
+  //gulp.watch(upLoadFile, ['ftpUpLoad']) // watching file save's auto ftp upload.
   gulp.watch(upLoadFile, ['localBrowserReload']) // watching file save's local browser reload.
 })
