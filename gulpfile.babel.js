@@ -100,7 +100,7 @@ gulp.task('cssmin', () => {
 })
 
 // ejs funcitions.
-gulp.task('ejs', function () {
+gulp.task('ejs', () => {
   return gulp.src(['ejs/*', '!ejs/*.ejs'])
     .pipe(ejs())
     .pipe(gulp.dest('/'))
