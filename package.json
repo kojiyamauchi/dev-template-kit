@@ -27,7 +27,6 @@
     "gulp": "^3.9.1",
     "gulp-changed": "^3.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-connect-php": "1.0.0",
     "gulp-csscomb": "^3.0.8",
     "gulp-cssmin": "^0.1.7",
     "gulp-ejs": "^3.0.1",
