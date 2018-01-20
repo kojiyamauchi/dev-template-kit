@@ -152,7 +152,7 @@ gulp.task('rename', () => {
 })
 
 // File Delete Task.
-gulp.task('delete', (cb) => {
+gulp.task('delete', cb => {
   return del(['**/.DS_Store'], cb)
 })
 
