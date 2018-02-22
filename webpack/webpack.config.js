@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 
 module.exports = {
-  entry: './base/core.ts',
+  entry: './base/core.js',
   output: {
     path: __dirname + 'js/',
     filename: '_core.js'
