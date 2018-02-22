@@ -72,7 +72,7 @@ gulp.task('jsmin', () => {
 
 // sass compile & use PostCSS plugIn.
 gulp.task('sass', () => {
-  return gulp.src('sass/*.scss')
+  return gulp.src('sass/**/*.scss')
     .pipe(plumber({
       errorHander: (error) => {
         console.log(error.message)
@@ -201,7 +201,7 @@ gulp.task('default', ['browserSync'], () => { // first task, local server connec
   //gulp.watch(['base/*', 'tags/*', 'three/*'], ['webpack']) // JS File webpack.
   //gulp.watch(['js/_core.js'], ['concat']) // JS File Concatenate.
   //gulp.watch('js/core.js', ['jsmin']) // watching change's JS flie, File Compression.
-  //gulp.watch('sass/app.scss', ['sass']) // watching sass file save's auto compile & add vendor prefix automatically.
+  //gulp.watch('sass/**/*.scss', ['sass']) // watching sass file save's auto compile & add vendor prefix automatically.
   //gulp.watch('css/app.css', ['cssmin']) // watching change's CSS flie, File Compression.
   //gulp.watch('ejs/*', ['ejs']) // watch ejs.
   //gulp.watch('**/*.html', ['prettify']) // watch prettify.

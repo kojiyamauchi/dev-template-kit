@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 
 module.exports = {
-  entry: './base/core.js',
+  entry: './base/core.ts',
   output: {
     path: __dirname + 'js/',
     filename: '_core.js'
@@ -22,7 +22,7 @@ module.exports = {
         }]
       },
       {
-        test: /\.js|\.tag$/,
+        test: /\.js|\.ts|\.tag$/,
         enforce: 'post',
         exclude: /node_modules/,
         use: [
@@ -34,20 +34,17 @@ module.exports = {
         }]
       },
       // If Using Riot.js End.
-      // ES6 Compile.
+      // ES6 & TypeScript Compile.
       {
-        test: /\.js$/,
+        test: /\.js|\.ts$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015']
-        }
+        loader: ['babel-loader','ts-loader']
       }
-      // ES6 Compile End.
+      // ES6 & TypeScript Compile End.
     ]
   },
   resolve: {
-    extensions: ['.js', '.tag']
+    extensions: ['.js', '.ts', '.tag']
   },
   plugins: [
     new webpack.ProvidePlugin({
