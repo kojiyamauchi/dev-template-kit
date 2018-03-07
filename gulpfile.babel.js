@@ -91,7 +91,7 @@ gulp.task('sass', () => {
 
 // CSS File Compression.
 gulp.task('cssmin', () => {
-  return gulp.src('css/*.css')
+  return gulp.src('css/app.css')
     .pipe(cssmin())
     .pipe(rename({
       suffix: '.min'
