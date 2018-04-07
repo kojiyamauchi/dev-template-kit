@@ -34,13 +34,13 @@ module.exports = {
         }]
       },
       // If Using Riot.js End.
-      // ES6 & TypeScript Compile.
+      // ES6 & React & TypeScript Compile.
       {
         test: /\.js|\.ts$/,
         exclude: /node_modules/,
         loader: ['babel-loader', 'ts-loader']
       },
-      // ES6 & TypeScript Compile End.
+      // ES6 & React & TypeScript Compile End.
       // Import Json File.
       {
         test: /\.json$/,
