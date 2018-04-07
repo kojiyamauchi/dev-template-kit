@@ -38,9 +38,16 @@ module.exports = {
       {
         test: /\.js|\.ts$/,
         exclude: /node_modules/,
-        loader: ['babel-loader','ts-loader']
-      }
+        loader: ['babel-loader', 'ts-loader']
+      },
       // ES6 & TypeScript Compile End.
+      // Import Json File.
+      {
+        test: /\.json$/,
+        exclude: /node_modules/,
+        loader: 'json-loader'
+      }
+      // Import Json File End.
     ]
   },
   resolve: {
