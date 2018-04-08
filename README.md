@@ -1,8 +1,8 @@
-# Gulp Template Kit.
+# npm Package Template Kit.
 
 ## Usage.
 
 ・Clone or Download This Repository in Project Root Dir.<br>
 => 'npm init' or 'yarn init'.<br>
 ==> 'npm install' or 'yarn'.<br>
-===> 'gulp'.
+===> 'gulp' or 'yarn dev'
