@@ -160,6 +160,7 @@ gulp.task('delete', cb => {
 gulp.task('browserSync', () => {
   return browserSync({
     browser: 'google chrome',
+    open: 'external',
     notify: false,
     /* if setting proxy.
     proxy: 'test.dev or localhost:8080'
