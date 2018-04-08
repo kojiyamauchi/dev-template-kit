@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 
 module.exports = {
+  mode: 'production',
   entry: './base/core.js',
   output: {
     path: __dirname + 'js/',
@@ -35,6 +36,7 @@ module.exports = {
       },
       // If Using Riot.js End.
       // ES6 & React & TypeScript Compile.
+      // If Don't Use TypeScript, Delete 'ts-loader'.
       {
         test: /\.js|\.ts$/,
         exclude: /node_modules/,
