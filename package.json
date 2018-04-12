@@ -2,12 +2,6 @@
   "name": "kojiyamauchi",
   "version": "1.0.0",
   "main": "example.js",
-  "scripts": {
-    "dev": "node server.js",
-    "build": "next build",
-    "start": "NODE_ENV=production node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {
     "global": "^4.3.2"
   },
@@ -100,5 +94,11 @@
         "preprocess": false
       }]
     ]
+  },
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
