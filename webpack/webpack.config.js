@@ -2,11 +2,14 @@ const webpack = require('webpack')
 
 module.exports = {
   mode: 'production',
-  entry: './base/core.js',
+  entry: './base/core.js', // or './base/core.tsx',
   output: {
     path: __dirname + 'js/',
     filename: '_core.js'
   },
+
+  devtool: "source-map",
+
   module: {
     rules: [
       // If Using Riot.js
@@ -36,11 +39,16 @@ module.exports = {
       },
       // If Using Riot.js End.
       // ES6 & React & TypeScript Compile.
-      // If Don't Use TypeScript, Delete 'ts-loader'.
+      // If Don't Use TypeScript, Delete 'awesome-typescript-loader'.
       {
-        test: /\.js|\.ts$/,
+        test: /\.js$/,
+        enforce: "pre",
+        loader: "source-map-loader"
+      },
+      {
+        test: /\.js|\.ts|\.tsx$/,
         exclude: /node_modules/,
-        loader: ['babel-loader', 'ts-loader']
+        loader: ['babel-loader', 'awesome-typescript-loader']
       },
       // ES6 & React & TypeScript Compile End.
       // Import Json File.
@@ -53,7 +61,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.ts', '.tag']
+    extensions: ['.js', '.ts', '.tag', 'tsx', 'json']
   },
   plugins: [
     new webpack.ProvidePlugin({
