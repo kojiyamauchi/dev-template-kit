@@ -5,13 +5,20 @@ module.exports = {
   entry: './base/core.js', // or './base/core.tsx',
   output: {
     path: __dirname + 'js/',
-    filename: '_core.js'
+    filename: '_core.js' // or 'core.js'
   },
 
   devtool: "source-map",
 
   module: {
     rules: [
+      // JS Sorce Map.
+      {
+        test: /\.js$/,
+        enforce: "pre",
+        loader: "source-map-loader"
+      },
+      // JS Sorce Map End.
       // If Using Riot.js
       {
         test: /\.tag$/,
@@ -26,25 +33,14 @@ module.exports = {
         }]
       },
       {
-        test: /\.js|\.ts|\.tag$/,
+        test: /\.js|\.tag$/,
         enforce: 'post',
         exclude: /node_modules/,
-        use: [
-        {
-          loader: 'babel-loader',
-          options: {
-            presets: 'es2015-riot'
-          }
-        }]
+        loader: ['babel-loader']
       },
       // If Using Riot.js End.
       // ES6 & React & TypeScript Compile.
       // If Don't Use TypeScript, Delete 'awesome-typescript-loader'.
-      {
-        test: /\.js$/,
-        enforce: "pre",
-        loader: "source-map-loader"
-      },
       {
         test: /\.js|\.ts|\.tsx$/,
         exclude: /node_modules/,
