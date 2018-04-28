@@ -49,6 +49,7 @@ module.exports = {
       // ES6 & React & TypeScript Compile End.
       // Import Json File.
       {
+        type: 'javascript/auto',
         test: /\.json$/,
         exclude: /node_modules/,
         loader: 'json-loader'
@@ -57,7 +58,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.ts', '.tag', 'tsx', 'json']
+    extensions: ['.js', '.ts', '.tag', '.tsx', '.json']
   },
   plugins: [
     new webpack.ProvidePlugin({
