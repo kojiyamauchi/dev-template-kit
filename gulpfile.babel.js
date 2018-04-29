@@ -8,8 +8,8 @@ import rename from 'gulp-rename' // File Rename PlugIn.
 import del from 'del' // File Delete PlugIn.
 // For Webpack.
 import webpack from 'webpack' // webpack.
-import webpackStream from 'webpack-stream' // webpack PlugIn.
-import webpackConfig from './webpack/webpack.config' // webpack config file.
+import webpackStream from 'webpack-stream' // Using webpack for gulp Plugin.
+import webpackBase from './webpack/webpack.base.babel' // webpack base config file.
 // For JS.
 import concat from 'gulp-concat' // JS File Concatenate.
 import jsmin from 'gulp-uglify' // JS File Compression.
@@ -45,7 +45,7 @@ const upLoadFile = upLoadFileWrite.concat(notUpLoadFileWrite) // ftp upload file
 
 // webpack.
 gulp.task('webpack', () => {
-  return webpackStream(webpackConfig, webpack)
+  return webpackStream(webpackBase, webpack)
     .pipe(gulp.dest('js/'))
 })
 
