@@ -83,7 +83,7 @@ module.exports = {
     // Setting for Cut the File Extension When Import JS Module.
     extensions: ['.js', '.ts', '.tag', '.tsx', '.json'],
 
-    // Setting for Project Root Dir, When Import Self Made JS Modules.
+    // Setting for Project Root Dir, When Import JS Modules.
     alias: {
       '@': path.resolve(__dirname, './..'),
     }
