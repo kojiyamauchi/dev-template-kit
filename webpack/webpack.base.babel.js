@@ -1,3 +1,7 @@
+/*
+   Setting webpack for Base.
+*/
+
 // Import webpack.
 import webpack from 'webpack'
 
@@ -8,7 +12,7 @@ import path from 'path'
 module.exports = {
 
   // Setting webpack Mode.
-  // If Using npm Script, This Code's CommentOut. Because, Mode Setting is npm Script & package.json.
+  // If Using npm Script, This Code's CommentOut. Because, Mode Setting is Done by npm Script & package.json.
   // This Setting is Using gulp Only.
   mode: 'development',
 
