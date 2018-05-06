@@ -17,7 +17,22 @@ import webpackBase from './webpack.base.babel'
 export default webpackMerge(webpackBase, {
 
   // Setting for Plugins.
-  plugins: []
+  plugins: [],
   // Setting for Plugins End.
+
+  // Created JS Source Maps.
+  devtool: "inline-source-map",
+
+  // Setting 'webpack dev server'.
+  devServer: {
+    port: 3000, // Using Port webpack dev server.
+    open: 'google chrome', // Using Default Browser.
+    progress: true, // Displayed Progress of Conversion on Terminal.
+    clientLogLevel: 'info', // Created Log Level.
+    contentBase: __dirname + './../', // This API's Necessary When Using 'webpack dev server' for Root of index.html.
+    watchOptions: {
+      poll: true // Using When File Update is Not Detected Correctly.
+    }
+  }
 
 })

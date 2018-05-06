@@ -21,8 +21,9 @@ module.exports = {
 
   // JS Core File Dist Point.
   output: {
-    path: __dirname + 'js/',
-    filename: 'core.js' // If Concatenation of JS PlugIn Files... =>  '_core.js'
+    filename: 'core.min.js', // If Using webpack Only... => 'core.min.js', Else If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
+    path: __dirname + './../js/', // Output Target Dir.
+    publicPath: 'js/' // This API's Necessary When Using 'webpack dev server' for Root of index.html.
   },
 
   // Core Settings is Below.
@@ -98,9 +99,6 @@ module.exports = {
   // Setting for Plugins.
   plugins: [],
   // Setting for Plugins End.
-
-  // Created JS Source Maps.
-  devtool: "inline-source-map",
 
   // Setting for Warning on Terminal.
   performance: {
