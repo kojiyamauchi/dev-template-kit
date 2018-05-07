@@ -102,8 +102,10 @@
     "source-map-loader": "^0.2.3",
     "stats.js": "^0.17.0",
     "styled-components": "^3.2.5",
+    "stylelint-webpack-plugin": "^0.10.4",
     "swiper": "^4.2.2",
     "three": "^0.91.0",
+    "tslint": "^5.10.0",
     "typesafe-actions": "^1.1.2",
     "typescript": "^2.8.1",
     "uglifyjs-webpack-plugin": "^1.2.5",
@@ -119,22 +121,17 @@
   "license": "ISC",
   "description": "",
   "babel": {
-    "presets": [
-      "react",
-      "next/babel",
-      "es2015-riot", [
-        "env",
-        {
-          "targets": {
-            "browsers": [
-              "last 2 versions",
-              "safari >= 7"
-            ]
-          },
-          "modules": false
-        }
-      ]
-    ],
+    "presets": ["react", "next/babel", "es2015-riot", ["env",
+      {
+        "targets": {
+          "browsers": [
+            "last 2 versions",
+            "safari >= 7"
+          ]
+        },
+        "modules": false
+      }
+    ]],
     "plugins": [
       [
         "styled-components",
