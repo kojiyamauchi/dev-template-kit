@@ -21,7 +21,7 @@ module.exports = {
 
   // JS Core File Dist Point.
   output: {
-    filename: 'core.min.js', // If Using webpack Only... => 'core.min.js', Else If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
+    filename: 'core.js', // If Using webpack Only... => 'core.min.js', Else If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
     path: __dirname + './../js/', // Output Target Dir.
     publicPath: 'js/' // This API's Necessary When Using 'webpack dev server' for Root of index.html.
   },
