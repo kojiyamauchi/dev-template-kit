@@ -68,6 +68,7 @@
     "html-webpack-plugin": "^3.2.0",
     "imagemin-pngquant": "^5.1.0",
     "imports-loader": "^0.8.0",
+    "isomorphic-unfetch": "^2.0.0",
     "jquery": "^3.3.1",
     "json-loader": "^0.5.7",
     "lazysizes": "^4.0.2",
@@ -118,17 +119,22 @@
   "license": "ISC",
   "description": "",
   "babel": {
-    "presets": ["react", "next/babel", "es2015-riot", ["env",
-      {
-        "targets": {
-          "browsers": [
-            "last 2 versions",
-            "safari >= 7"
-          ]
-        },
-        "modules": false
-      }
-    ]],
+    "presets": [
+      "react",
+      "next/babel",
+      "es2015-riot", [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              "safari >= 7"
+            ]
+          },
+          "modules": false
+        }
+      ]
+    ],
     "plugins": [
       [
         "styled-components",
