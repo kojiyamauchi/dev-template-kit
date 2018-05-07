@@ -2,6 +2,9 @@
   "name": "kojiyamauchi",
   "version": "1.0.0",
   "main": "example.js",
+  "license": "ISC",
+  "author": "",
+  "description": "",
   "dependencies": {
     "global": "^4.3.2"
   },
@@ -117,9 +120,6 @@
     "webpack-merge": "^4.1.2",
     "webpack-stream": "^4.0.3"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "babel": {
     "presets": ["react", "next/babel", "es2015-riot", ["env",
       {
