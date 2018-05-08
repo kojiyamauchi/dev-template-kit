@@ -26,6 +26,7 @@
     "autoprefixer": "^8.2.0",
     "awesome-typescript-loader": "^5.0.0",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.3",
     "babel-loader": "^7.1.4",
     "babel-plugin-styled-components": "^1.5.1",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -44,8 +45,12 @@
     "del": "^3.0.0",
     "emergence.js": "^1.1.2",
     "eslint": "^4.19.1",
-    "eslint-formatter-pretty": "^1.3.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-prettier": "^2.9.0",
     "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.7.0",
     "exports-loader": "^0.7.0",
     "express": "^4.16.3",
@@ -83,6 +88,7 @@
     "node-sass": "^4.8.3",
     "npm-check-updates": "^2.14.1",
     "postcss-flexbugs-fixes": "^3.3.0",
+    "prettier": "^1.12.1",
     "rc-slider": "^8.6.1",
     "react": "^16.3.1",
     "react-docgen-typescript": "^1.2.6",
@@ -109,6 +115,9 @@
     "swiper": "^4.2.2",
     "three": "^0.91.0",
     "tslint": "^5.10.0",
+    "tslint-config-airbnb": "^5.8.0",
+    "tslint-loader": "^3.6.0",
+    "tslint-react": "^3.5.1",
     "typesafe-actions": "^1.1.2",
     "typescript": "^2.8.1",
     "uglifyjs-webpack-plugin": "^1.2.5",
@@ -121,17 +130,23 @@
     "webpack-stream": "^4.0.3"
   },
   "babel": {
-    "presets": ["react", "next/babel", "es2015-riot", ["env",
-      {
-        "targets": {
-          "browsers": [
-            "last 2 versions",
-            "safari >= 7"
-          ]
-        },
-        "modules": false
-      }
-    ]],
+    "presets": [
+      "react",
+      "next/babel",
+      "es2015-riot",
+      [
+        "env",
+        {
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              "safari >= 7"
+            ]
+          },
+          "modules": false
+        }
+      ]
+    ],
     "plugins": [
       [
         "styled-components",
