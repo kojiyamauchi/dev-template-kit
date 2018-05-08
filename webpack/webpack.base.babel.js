@@ -10,39 +10,38 @@ import path from 'path'
 
 // Setting Start.
 module.exports = {
-
   // Setting webpack Mode.
   // If Using npm Script, This Code's CommentOut. Because, Mode Setting is Done by npm Script & package.json.
   // This Setting is Using gulp Only.
   mode: 'development',
 
   // JS Core File Entry Point.
-  entry: './base/core.js', // If Using React & TypeScript.. => './base/core.tsx',
+  entry: './base/core.js', // If Using React & TypeScript.. => './base/core.tsx', Else If Using TypeScript Only.. => './base/core.ts'.
 
   // JS Core File Dist Point.
   output: {
-    filename: 'core.js', // If Using webpack Only... => 'core.min.js', Else If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
-    path: __dirname + './../js/', // Output Target Dir.
-    publicPath: 'js/' // This API's Necessary When Using 'webpack dev server' for Root of index.html.
+    filename: 'core.js', // If Using webpack Only... => 'core.min.js', Else If Using gulp... => 'core.js', And If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
+    path: `${__dirname}./../js/`, // Output Target Dir.
+    publicPath: 'js/' // This API's Necessary When Using 'webpack dev server' on Root of index.html.
   },
 
   // Core Settings is Below.
   // Setting Rules According to JS Library and Framework.
   module: {
     rules: [
-
       // If Using Riot.js
       {
         test: /\.tag$/,
         enforce: 'pre',
         exclude: /node_modules/,
         use: [
-        {
-          loader: 'riot-tag-loader',
-          options: {
-            debug: true
+          {
+            loader: 'riot-tag-loader',
+            options: {
+              debug: true
+            }
           }
-        }]
+        ]
       },
       {
         test: /\.js|\.tag$/,
@@ -73,26 +72,23 @@ module.exports = {
       // JS Sorce Map.
       {
         test: /\.js$/,
-        enforce: "pre",
-        loader: "source-map-loader"
+        enforce: 'pre',
+        loader: 'source-map-loader'
       }
       // JS Sorce Map End.
-
     ]
   },
   // Setting Rules According to JS Library and Framework End.
 
   // Setting for Import JS Modules.
   resolve: {
-
     // Setting for Cut the File Extension When Import JS Module.
     extensions: ['.js', '.ts', '.tag', '.tsx', '.json'],
 
     // Setting for Project Root Dir, When Import JS Modules.
     alias: {
-      '@': path.resolve(__dirname, './..'),
+      '@': path.resolve(__dirname, './..')
     }
-
   },
   // Setting for Import JS Modules End.
 
@@ -104,13 +100,12 @@ module.exports = {
   performance: {
     /* An entrypoint represents all assets that would be utilized during initial load time for a specific entry.
     This option controls when webpack should emit performance hints based on the maximum entrypoint size.
-    The default value is 250000 (bytes).*/
+    The default value is 250000 (bytes). */
     maxEntrypointSize: 400000,
 
     /* An asset is any emitted file from webpack.
     This option controls when webpack emits a performance hint based on individual asset size.
-    The default value is 250000 (bytes).*/
+    The default value is 250000 (bytes). */
     maxAssetSize: 400000
   }
-
 }

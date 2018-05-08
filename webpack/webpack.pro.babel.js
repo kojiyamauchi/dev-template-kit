@@ -21,10 +21,9 @@ import webpackBase from './webpack.base.babel'
 // If Using npm Script on '--mode production',
 // Using of Below.
 export default webpackMerge(webpackBase, {
-
   // Setting for Plugins.
   plugins: [
-    // Minify of Production JS File & Keep License Comment Out.
+    // When Minify of Production's JS File, Keep License Comment Out.
     new licenseInfoWebpackPlugin({
       glob: '{LICENSE,license,License}*'
     }),
@@ -40,7 +39,7 @@ export default webpackMerge(webpackBase, {
       new uglifyJSPlugin({
         uglifyOptions: {
           compress: {
-            // Delete console.log(), Minify of JS File.
+            // Delete console.log(), When Minify of JS File.
             drop_console: true
           },
           output: {
@@ -52,5 +51,4 @@ export default webpackMerge(webpackBase, {
     ]
   }
   // Setting for Plugins End.
-
 })
