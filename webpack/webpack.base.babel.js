@@ -60,6 +60,46 @@ module.exports = {
       },
       // ES6 & React & TypeScript End.
 
+      // Using Images. (Except SVG)
+      {
+        test: /\.(jpg|png|gif|pdf|ico|woff|woff2|eot|ttf)$/,
+        loaders: 'url-loader',
+        options: {
+          limit: 10000
+        }
+      },
+      // Using Images. (Except SVG) End.
+
+      // Using SVG.
+      {
+        test: /\.svg$/,
+        use: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            options: {
+              svgo: {
+                plugins: [
+                  {
+                    removeTitle: true,
+                    removeDesc: true
+                  }
+                ],
+                floatPrecision: 2
+              }
+            }
+          }
+        ]
+      },
+      // Using SVG End.
+
+      // Using Inline SVG.
+      {
+        test: /\.inline.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      // Using Inline SVG End.
+
       // Import Json File.
       {
         type: 'javascript/auto',
