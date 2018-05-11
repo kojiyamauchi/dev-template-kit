@@ -65,7 +65,8 @@ module.exports = {
         test: /\.(jpg|png|gif|pdf|ico|woff|woff2|eot|ttf)$/,
         loaders: 'url-loader',
         options: {
-          limit: 10000
+          limit: 10000,
+          outputPath : '../images/'
         }
       },
       // Using Images. (Except SVG) End.
