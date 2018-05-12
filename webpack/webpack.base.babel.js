@@ -20,9 +20,9 @@ module.exports = {
 
   // JS Core File Dist Point.
   output: {
-    filename: 'core.js', // If Using webpack Only... => 'core.min.js', Else If Using gulp... => 'core.js', And If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
-    path: `${__dirname}./../js/`, // Output Target Dir.
-    publicPath: 'js/' // This API's Necessary When Using 'webpack dev server' on Root of index.html.
+    path: `${__dirname}/../`, // Setting of Output Target on Root Dir.
+    filename: path.join('js', 'core.min.js'), // Setting of Output Target Dir & Output File Name. If Using webpack Only... => 'core.min.js', Else If Using gulp... => 'core.js', And If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
+    publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
   },
 
   // Core Settings is Below.
@@ -35,16 +35,15 @@ module.exports = {
         enforce: 'pre',
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'riot-tag-loader',
-            options: {
-              debug: true
-            }
+        {
+          loader: 'riot-tag-loader',
+          options: {
+            debug: true
           }
-        ]
+        }]
       },
       {
-        test: /\.js|\.tag$/,
+        test: /\.(js|tag)$/,
         enforce: 'post',
         exclude: /node_modules/,
         loader: ['babel-loader']
@@ -54,38 +53,35 @@ module.exports = {
       // ES6 & React & TypeScript.
       // If Don't Use TypeScript, Delete 'awesome-typescript-loader'.
       {
-        test: /\.js|\.ts|\.tsx$/,
+        test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
-        loader: ['babel-loader', 'awesome-typescript-loader']
+        loader: ['babel-loader']
       },
       // ES6 & React & TypeScript End.
-
-      // Using Images. (Except SVG)
+      // Using Images. (Except SVG.)
       {
-        test: /\.(jpg|png|gif|pdf|ico|woff|woff2|eot|ttf)$/,
+        test: /\.(jpg|png|gif)$/,
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : '../images/'
+          outputPath : 'images', // Setting Images File Output Dir.
         }
       },
-      // Using Images. (Except SVG) End.
-
+      // Using Images. (Except SVG.) End.
       // Using SVG.
       {
         test: /\.svg$/,
         use: [
-          'babel-loader',
+          "babel-loader",
           {
-            loader: 'react-svg-loader',
+            loader: "react-svg-loader",
             options: {
               svgo: {
                 plugins: [
-                  {
-                    removeTitle: true,
-                    removeDesc: true
-                  }
-                ],
+                {
+                  removeTitle: true,
+                  removeDesc: true
+                }],
                 floatPrecision: 2
               }
             }
@@ -93,14 +89,42 @@ module.exports = {
         ]
       },
       // Using SVG End.
-
       // Using Inline SVG.
       {
         test: /\.inline.svg$/,
-        loader: 'svg-inline-loader'
+        loader: 'svg-inline-loader',
       },
       // Using Inline SVG End.
-
+      // Using Icons.
+      {
+        test: /\.ico$/,
+        loaders: 'url-loader',
+        options: {
+          limit: 10000,
+          outputPath : 'icons', // Setting Icons File Output Dir.
+        }
+      },
+      // Using Icons End.
+      // Using Fonts.
+      {
+        test: /\.(woff|woff2|eot|ttf)$/,
+        loaders: 'url-loader',
+        options: {
+          limit: 10000,
+          outputPath : 'fonts', // Setting Fonts File Output Dir.
+        }
+      },
+      // Using Fonts End.
+      // Using PDF.
+      {
+        test: /\.pdf$/,
+        loaders: 'url-loader',
+        options: {
+          limit: 10000,
+          outputPath : 'pdf', // Setting PDF File Output Dir.
+        }
+      },
+      // Using PDF End.
       // Import Json File.
       {
         type: 'javascript/auto',
@@ -124,7 +148,7 @@ module.exports = {
   // Setting for Import JS Modules.
   resolve: {
     // Setting for Cut the File Extension When Import JS Module.
-    extensions: ['.js', '.ts', '.tag', '.tsx', '.json'],
+    extensions: ['.js', '.ts', '.tag', '.tsx', '.json', '.svg', '.jpg', '.png', '.gif'],
 
     // Setting for Project Root Dir, When Import JS Modules.
     alias: {
