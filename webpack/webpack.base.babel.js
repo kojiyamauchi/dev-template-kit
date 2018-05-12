@@ -22,7 +22,7 @@ module.exports = {
   output: {
     path: `${__dirname}/../`, // Setting of Output Target on Root Dir.
     filename: path.join('js', 'core.min.js'), // Setting of Output Target Dir & Output File Name. If Using webpack Only... => 'core.min.js', Else If Using gulp... => 'core.js', And If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
-    publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
+    //publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
   },
 
   // Core Settings is Below.
