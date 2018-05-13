@@ -152,7 +152,8 @@ module.exports = {
 
     // Setting for Project Root Dir, When Import JS Modules.
     alias: {
-      '@': path.resolve(__dirname, './..')
+      '@': path.resolve(__dirname, './../apps') // When Creating with React.js
+      //'@': path.resolve(__dirname, './..') // When Not Creating with React.js
     }
   },
   // Setting for Import JS Modules End.
