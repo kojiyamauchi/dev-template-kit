@@ -64,7 +64,7 @@ module.exports = {
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : 'images', // Setting Images File Output Dir.
+          outputPath : 'materials/images', // Setting Images File Output Dir.
         }
       },
       // Using Images. (Except SVG.) End.
@@ -101,7 +101,7 @@ module.exports = {
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : 'icons', // Setting Icons File Output Dir.
+          outputPath : 'materials/icons', // Setting Icons File Output Dir.
         }
       },
       // Using Icons End.
@@ -111,7 +111,7 @@ module.exports = {
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : 'fonts', // Setting Fonts File Output Dir.
+          outputPath : 'materials/fonts', // Setting Fonts File Output Dir.
         }
       },
       // Using Fonts End.
@@ -121,7 +121,7 @@ module.exports = {
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : 'pdf', // Setting PDF File Output Dir.
+          outputPath : 'materials/pdf', // Setting PDF File Output Dir.
         }
       },
       // Using PDF End.
