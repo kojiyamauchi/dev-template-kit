@@ -8,6 +8,9 @@ import webpack from 'webpack'
 // Import Node.js 'path' Modules. Using for Setting of Root Dir.
 import path from 'path'
 
+// Import Hard Source webpack Plugin.
+import HardSourceWebpackPlugin from 'hard-source-webpack-plugin'
+
 // Setting Start.
 module.exports = {
   // Setting webpack Mode.
@@ -159,7 +162,9 @@ module.exports = {
   // Setting for Import JS Modules End.
 
   // Setting for Plugins.
-  plugins: [],
+  plugins: [
+    new HardSourceWebpackPlugin() // Faster Build Plugins. Compile? Build? Which?
+  ],
   // Setting for Plugins End.
 
   // Setting for Warning on Terminal.
