@@ -22,7 +22,7 @@ export default webpackMerge(webpackBase, {
   // Created JS Source Maps.
   devtool: 'inline-source-map',
 
-  // Setting for 'webpack dev server'.
+  // Setting for 'webpack dev server'. -> Replace later for 'webpack serve'
   devServer: {
     port: 3000, // Setting Port of 'webpack dev server'.
     open: 'google chrome', // Setting Default Browser.
