@@ -1,5 +1,5 @@
 {
-  "name": "npm Package Template Kit.",
+  "name": "npmPackageTemplateKit",
   "version": "1.0.0",
   "dependencies": {
     "global": "^4.3.2"
