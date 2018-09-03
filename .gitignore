@@ -2,3 +2,4 @@
 node_modules/
 comment_of_package_json.yml
 package-lock.json
+yarn.lock
