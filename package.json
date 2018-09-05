@@ -188,9 +188,8 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --config webpack/webpack.dev.babel.js --mode development",
     "build": "webpack --config webpack/webpack.pro.babel.js --mode production",
-    "ssr-start": "NODE_ENV=production node server.js",
     "ssr-dev": "node server.js",
     "ssr-build": "next build",
-    "ssr-test": "next"
+    "ssr-start": "NODE_ENV=production node server.js"
   }
 }
