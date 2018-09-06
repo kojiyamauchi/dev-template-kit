@@ -190,6 +190,7 @@
     "build": "webpack --config webpack/webpack.pro.babel.js --mode production",
     "ssr-dev": "node server.js",
     "ssr-build": "next build",
-    "ssr-start": "NODE_ENV=production node server.js"
+    "ssr-start": "NODE_ENV=production node server.js",
+    "ssr-test": "next"
   }
 }
