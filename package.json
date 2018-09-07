@@ -191,6 +191,8 @@
     "ssr-dev": "node server.js",
     "ssr-build": "next build",
     "ssr-start": "NODE_ENV=production node server.js",
-    "ssr-test": "next"
+    "ssr-test": "next",
+    "check-pkg": "ncu",
+    "update-pkg": "ncu '/^(?!(babel-|next)).*$/' -u"
   }
 }
