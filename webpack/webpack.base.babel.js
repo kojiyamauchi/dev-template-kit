@@ -23,8 +23,8 @@ module.exports = {
 
   // JS Core File Dist Point.
   output: {
-    path: `${__dirname}/../`, // Setting of Output Target on Root Dir.
-    filename: path.join('js', 'core.min.js'), // Setting of Output Target Dir & Output File Name. If Using webpack Only... => 'core.min.js', Else If Using gulp... => 'core.js', And If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
+    path: `${__dirname}/../`, // Setting of Output Target on Root Dir. If Using gulp => `${__dirname}/js/` & Remove webpack.dev.babel.js & webpack.pro.babel.js
+    filename: path.join('js', 'core.min.js') // Setting of Output Target Dir & Output File Name. If Using webpack Only... => path.join('js', 'core.min.js'), Else If Using gulp... => 'core.js', And If Concatenation of JS PlugIn Files & Using gulp... =>  '_core.js'
     //publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
   },
 
@@ -38,12 +38,13 @@ module.exports = {
         enforce: 'pre',
         exclude: /node_modules/,
         use: [
-        {
-          loader: 'riot-tag-loader',
-          options: {
-            debug: true
+          {
+            loader: 'riot-tag-loader',
+            options: {
+              debug: true
+            }
           }
-        }]
+        ]
       },
       {
         test: /\.(js|tag)$/,
@@ -67,7 +68,7 @@ module.exports = {
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : 'materials/images', // Setting Images File Output Dir.
+          outputPath: 'materials/images' // Setting Images File Output Dir.
         }
       },
       // Using Images. (Except SVG.) End.
@@ -75,16 +76,17 @@ module.exports = {
       {
         test: /\.svg$/,
         use: [
-          "babel-loader",
+          'babel-loader',
           {
-            loader: "react-svg-loader",
+            loader: 'react-svg-loader',
             options: {
               svgo: {
                 plugins: [
-                {
-                  removeTitle: true,
-                  removeDesc: true
-                }],
+                  {
+                    removeTitle: true,
+                    removeDesc: true
+                  }
+                ],
                 floatPrecision: 2
               }
             }
@@ -95,7 +97,7 @@ module.exports = {
       // Using Inline SVG.
       {
         test: /\.inline.svg$/,
-        loader: 'svg-inline-loader',
+        loader: 'svg-inline-loader'
       },
       // Using Inline SVG End.
       // Using Icons.
@@ -104,7 +106,7 @@ module.exports = {
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : 'materials/icons', // Setting Icons File Output Dir.
+          outputPath: 'materials/icons' // Setting Icons File Output Dir.
         }
       },
       // Using Icons End.
@@ -114,7 +116,7 @@ module.exports = {
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : 'materials/fonts', // Setting Fonts File Output Dir.
+          outputPath: 'materials/fonts' // Setting Fonts File Output Dir.
         }
       },
       // Using Fonts End.
@@ -124,7 +126,7 @@ module.exports = {
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath : 'materials/pdf', // Setting PDF File Output Dir.
+          outputPath: 'materials/pdf' // Setting PDF File Output Dir.
         }
       },
       // Using PDF End.
@@ -151,7 +153,17 @@ module.exports = {
   // Setting for Import JS Modules.
   resolve: {
     // Setting for Cut the File Extension When Import JS Module.
-    extensions: ['.js', '.ts', '.tag', '.tsx', '.json', '.svg', '.jpg', '.png', '.gif'],
+    extensions: [
+      '.js',
+      '.ts',
+      '.tag',
+      '.tsx',
+      '.json',
+      '.svg',
+      '.jpg',
+      '.png',
+      '.gif'
+    ],
 
     // Setting for Project Root Dir, When Import JS Modules.
     alias: {
