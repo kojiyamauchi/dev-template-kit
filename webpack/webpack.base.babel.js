@@ -27,7 +27,6 @@ module.exports = {
     //path: `${__dirname}/js/`, <= If Using gulp, Use This Path. & Remove webpack.dev.babel.js & webpack.pro.babel.js
     filename: path.join('js', 'core.min.js') // Setting of Output Target Dir & Output File Name, When Using npm Script.
     //filename: 'core.js' <= If Using gulp, Use This Filename.
-    //filename: '_core.js' <= If Using gulp & Concatenation of JS PlugIn Files.
     //publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
   },
 
