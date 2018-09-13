@@ -9,14 +9,14 @@ import del from 'del' // File Delete PlugIn.
 // For Webpack.
 import webpack from 'webpack' // webpack.
 import webpackStream from 'webpack-stream' // Using webpack for gulp Plugin.
-import webpackBase from './webpack/webpack.base.babel' // webpack base config file.
+import webpackGulp from './webpack/webpack.gulp.babel' // webpack base config file.
 // For JS.
 import jsmin from 'gulp-uglify' // JS File Compression.
 import ejs from 'gulp-ejs' // gulp ejs.
 // For Sass & CSS.
 import sass from 'gulp-sass' // sass file compile.
 import sassGlob from 'gulp-sass-glob' // sass glob.
-import postCss from 'gulp-postcss' // postcss.
+import postCSS from 'gulp-postcss' // postCSS.
 import autoprefixer from 'autoprefixer' // add vendor prefix in CSS automatically.
 import flexbug from 'postcss-flexbugs-fixes' // for flexbox bug.
 import cssComb from 'gulp-csscomb' // code formatting for CSS.
@@ -41,22 +41,25 @@ const autoprefixerSet = [
   'iOS >= 8',
   'Android >= 4.4'
 ]
-const postCssPlugIn = [autoprefixer({ browsers: autoprefixerSet }), flexbug] // PostCSS plugin.
-const addImgDir = 'addImages/*' // added image fold,
-const dstImgDir = 'images/*' // compression image fold,
-const upLoadFileWrite = [
+const postCSSPlugIn = [autoprefixer({ browsers: autoprefixerSet }), flexbug] // PostCSS plugin.
+const addIMGDir = 'addImages/*' // added image fold,
+const distIMGDir = 'images/*' // compression image fold,
+const upLoadFile = [
   // upload file.
-  '*.html',
+  'index.html',
   'css/app.min.css',
   'js/core.min.js',
   'images/*'
 ]
-const notUpLoadFileWrite = [] // don't upload file.
-const upLoadFile = upLoadFileWrite.concat(notUpLoadFileWrite) // ftp upload files.
 
 // webpack.
 gulp.task('webpack', () => {
-  return webpackStream(webpackBase, webpack).pipe(gulp.dest('js/'))
+  return webpackStream(webpackGulp, webpack)
+    .on('error', function() {
+      this.emit('end')
+      console.log('error')
+    })
+    .pipe(gulp.dest('js/'))
 })
 
 // JS File Compression.
@@ -96,7 +99,7 @@ gulp.task('sass', () => {
         outputStyle: 'expanded'
       })
     )
-    .pipe(postCss(postCssPlugIn))
+    .pipe(postCSS(postCSSPlugIn))
     .pipe(sourcemaps.write('../maps'))
     .pipe(cssComb())
     .pipe(gulp.dest('css/'))
@@ -142,9 +145,9 @@ gulp.task('prettify', () => {
 // compression images.
 gulp.task('imgMin', () => {
   return gulp
-    .src(addImgDir + '(.jpg|.jpeg|.png|.gif)')
+    .src(addIMGDir + '(.jpg|.jpeg|.png|.gif)')
     .pipe(plumber())
-    .pipe(changed(addImgDir))
+    .pipe(changed(addIMGDir))
     .pipe(
       imageMin({
         use: [
@@ -155,17 +158,17 @@ gulp.task('imgMin', () => {
         ]
       })
     )
-    .pipe(gulp.dest(dstImgDir))
+    .pipe(gulp.dest(distIMGDir))
 })
 
 // svg file compression.
 gulp.task('svgMin', () => {
   return gulp
-    .src(addImgDir + '.svg')
+    .src(addIMGDir + '.svg')
     .pipe(plumber())
-    .pipe(changed(addImgDir))
+    .pipe(changed(addIMGDir))
     .pipe(svgMin())
-    .pipe(gulp.dest(dstImgDir))
+    .pipe(gulp.dest(distIMGDir))
 })
 
 // File Rename Task.
@@ -190,16 +193,15 @@ gulp.task('browserSync', () => {
   return browserSync({
     browser: 'google chrome',
     open: 'external',
-    notify: false
+    notify: false,
     /* if setting proxy.
     proxy: 'test.dev or localhost:8080'
     */
-    /* if setting root.
+    // setting root.
     server: {
       baseDir: '.',
       index: 'index.html'
     }
-    */
   })
 })
 
@@ -236,7 +238,7 @@ gulp.task('default', ['browserSync'], () => {
   //gulp.watch('css/app.css', ['cssmin']) // watching change's CSS flie, File Compression.
   //gulp.watch('ejs/*', ['ejs']) // watch ejs.
   //gulp.watch('**/*.html', ['prettify']) // watch prettify.
-  //gulp.watch(addImgDir, ['imgMin', 'svgMin']) // watching Img Dir compression.
+  //gulp.watch(addIMGDir, ['imgMin', 'svgMin']) // watching Img Dir compression.
   //gulp.watch('**/*', ['rename']) // watching Rename Task.
   //gulp.watch('**/*', ['delete']) // watching Delete Task.
   //gulp.watch(upLoadFile, ['ftpUpLoad']) // watching file save's auto ftp upload.
