@@ -13,20 +13,13 @@ import HardSourceWebpackPlugin from 'hard-source-webpack-plugin'
 
 // Setting Start.
 module.exports = {
-  // Setting webpack Mode.
-  // If Using npm Script, This Code's CommentOut. Because, Mode Setting is Done by npm Script & package.json.
-  // This Setting is Using gulp Only.
-  mode: 'development',
-
   // JS Core File Entry Point.
   entry: './base/core.js', // If Using React & TypeScript.. => './base/core.tsx', Else If Using TypeScript Only.. => './base/core.ts'.
 
   // JS Core File Dist Point.
   output: {
     path: `${__dirname}/../`, // Setting of Output Target on Root Dir, When Using npm Script.
-    //path: `${__dirname}/js/`, <= If Using gulp, Use This Path. & Remove webpack.dev.babel.js & webpack.pro.babel.js
     filename: path.join('js', 'core.min.js') // Setting of Output Target Dir & Output File Name, When Using npm Script.
-    //filename: 'core.js' <= If Using gulp, Use This Filename.
     //publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
   },
 
@@ -61,7 +54,7 @@ module.exports = {
       {
         test: /\.(js|ts|tsx)$/,
         exclude: /node_modules/,
-        loader: ['babel-loader']
+        loader: ['babel-loader', 'awesome-typescript-loader']
       },
       // ES6 & React & TypeScript End.
       // Using Images. (Except SVG.)
