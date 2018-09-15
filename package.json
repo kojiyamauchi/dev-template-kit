@@ -192,6 +192,7 @@
     "ssr-build": "next build",
     "ssr-start": "NODE_ENV=production node server.js",
     "ssr-test": "next",
+    "gulp": "gulp",
     "check-pkg": "ncu",
     "update-pkg": "ncu '/^(?!(babel-|next)).*$/' -u"
   }
