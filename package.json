@@ -5,6 +5,7 @@
     "global": "^4.3.2"
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.0.0",
     "@types/chroma-js": "^1.3.4",
     "@types/d3": "^5.0.0",
     "@types/dat.gui": "^0.7.1",
