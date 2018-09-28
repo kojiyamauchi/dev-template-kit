@@ -3,11 +3,22 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 
 ## Usage.
 
-- Clone or Download This Repository in Project Root Dir.
-  - `npm init` or `yarn init`.
-    - `npm install` or `yarn`.
-      - If Creating Standard Website & Any More. ( WebGL or D3.js or Riot.js... )  
-        - `gulp`  
-      - If Creating React.js & Any More. ( WebGL or D3.js... )  
-        - Development -> `yarn dev`  
-        - Build -> `yarn build`
+- Clone or Download This Repository in Project Root Dir.  
+  - Initial Package.json
+    - -> `yarn init` or `npm init`.  
+      - Install All Packages.
+        - -> `yarn install` or `npm install`.
+          - If Creating Standard Website & Any More. ( WebGL or D3.js or Riot.js... )  
+            - -> `gulp` or `yarn gulp`  
+          - If Creating React.js & Any More. ( WebGL or D3.js... )  
+            - Development -> `yarn dev`  
+            - Build -> `yarn build`  
+
+ー  
+
+- Check npm Package Update Version. ( ncu )  
+  - -> `yarn check-pkg`  
+    - Update npm Package on Package.json. ( ncu )  
+      - -> `yarn update-pkg`  
+        - Re:Install All Packages.
+          - -> `yarn install` or `npm install`.  
