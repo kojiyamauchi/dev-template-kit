@@ -195,6 +195,6 @@
     "ssr-test": "next",
     "gulp": "gulp",
     "check-pkg": "ncu",
-    "update-pkg": "ncu '/^(?!(babel-|next)).*$/' -u"
+    "update-pkg": "ncu '/^(?!(babel-|@babel|next)).*$/' -a"
   }
 }
