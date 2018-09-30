@@ -20,7 +20,7 @@ module.exports = {
   output: {
     path: `${__dirname}/../`, // Setting of Output Target on Root Dir, When Using npm Script.
     filename: path.join('js', 'core.min.js') // Setting of Output Target Dir & Output File Name, When Using npm Script.
-    //publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
+    // publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
   },
 
   // Core Settings is Below.
@@ -163,14 +163,18 @@ module.exports = {
     // Setting for Project Root Dir, When Import JS Modules.
     alias: {
       '@': path.resolve(__dirname, './../apps') // When Creating with React.js
-      //'@': path.resolve(__dirname, './..') // When Not Creating with React.js
+      // '@': path.resolve(__dirname, './..') // When Not Creating with React.js
     }
   },
   // Setting for Import JS Modules End.
 
   // Setting for Plugins.
   plugins: [
+    /*
+    Read Issue Below on GitHub.
+    https://github.com/webpack/webpack/issues/8052
     new HardSourceWebpackPlugin() // Faster Build Plugins. Compile? Build? Which?
+    */
   ],
   // Setting for Plugins End.
 
