@@ -151,11 +151,8 @@
   },
   "babel": {
     "presets": [
-      "es2015",
-      "react",
-      "next/babel",
       [
-        "env",
+        "@babel/preset-env",
         {
           "targets": {
             "browsers": [
@@ -165,7 +162,9 @@
           },
           "modules": false
         }
-      ]
+      ],
+      "@babel/preset-react",
+      "next/babel"
     ],
     "plugins": [
       [
