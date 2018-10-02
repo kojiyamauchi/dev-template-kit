@@ -33,13 +33,12 @@ module.exports = {
         enforce: 'pre',
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'riot-tag-loader',
-            options: {
-              debug: true
-            }
+        {
+          loader: 'riot-tag-loader',
+          options: {
+            debug: true
           }
-        ]
+        }]
       },
       {
         test: /\.(js|tag)$/,
@@ -48,15 +47,21 @@ module.exports = {
         loader: ['babel-loader']
       },
       // If Using Riot.js End.
-
-      // ES6 & React & TypeScript.
-      // If Don't Use TypeScript, Delete 'awesome-typescript-loader'.
+      // ES2015 & React.
       {
-        test: /\.(js|ts|tsx)$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: ['babel-loader', 'awesome-typescript-loader']
+        loader: ['babel-loader']
       },
-      // ES6 & React & TypeScript End.
+      // ES2015 & React End.
+      // React & TypeScript.
+      // Use Loader -> 'ts-loader' or 'awesome-typescript-loader'.
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        loader: ['ts-loader', 'awesome-typescript-loader']
+      },
+      // React & TypeScript End.
       // Using Images. (Except SVG.)
       {
         test: /\.(jpg|png|gif)$/,
@@ -77,11 +82,10 @@ module.exports = {
             options: {
               svgo: {
                 plugins: [
-                  {
-                    removeTitle: true,
-                    removeDesc: true
-                  }
-                ],
+                {
+                  removeTitle: true,
+                  removeDesc: true
+                }],
                 floatPrecision: 2
               }
             }
@@ -152,6 +156,7 @@ module.exports = {
       '.js',
       '.ts',
       '.tag',
+      '.jsx',
       '.tsx',
       '.json',
       '.svg',
