@@ -41,7 +41,9 @@ const autoprefixerSet = [
   'iOS >= 8',
   'Android >= 4.4'
 ]
-const postCSSPlugIn = [autoprefixer({ browsers: autoprefixerSet }), flexbug] // PostCSS plugin.
+const postCSSPlugIn = [autoprefixer({
+  browsers: autoprefixerSet
+}), flexbug] // PostCSS plugin.
 const addIMGDir = 'addImages/*' // added image fold,
 const distIMGDir = 'images/*' // compression image fold,
 const upLoadFile = [
@@ -55,7 +57,7 @@ const upLoadFile = [
 // webpack.
 gulp.task('webpack', () => {
   return webpackStream(webpackGulp, webpack)
-    .on('error', function() {
+    .on('error', function () {
       this.emit('end')
       console.log('error')
     })
