@@ -34,13 +34,12 @@ module.exports = {
         enforce: 'pre',
         exclude: /node_modules/,
         use: [
-          {
-            loader: 'riot-tag-loader',
-            options: {
-              debug: true
-            }
+        {
+          loader: 'riot-tag-loader',
+          options: {
+            debug: true
           }
-        ]
+        }]
       },
       {
         test: /\.(js|tag)$/,
@@ -49,15 +48,21 @@ module.exports = {
         loader: ['babel-loader']
       },
       // If Using Riot.js End.
-
-      // ES6 & TypeScript.
-      // If Don't Use TypeScript, Delete 'awesome-typescript-loader'.
+      // ES2015.
       {
-        test: /\.(js|ts)$/,
+        test: /\.js$/,
         exclude: /node_modules/,
-        loader: ['babel-loader', 'awesome-typescript-loader']
+        loader: ['babel-loader']
       },
-      // ES6 &  TypeScript End.
+      // ES2015 End.
+      // TypeScript.
+      // Use Loader -> 'ts-loader' or 'awesome-typescript-loader'.
+      {
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        loader: ['ts-loader', 'awesome-typescript-loader']
+      },
+      // TypeScript End.
       // Import Json File.
       {
         type: 'javascript/auto',
