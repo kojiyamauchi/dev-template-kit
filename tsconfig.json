@@ -15,7 +15,12 @@
     "module": "es2015",
     "moduleResolution": "node",
     "jsx": "react",
-    "lib": ["es5", "es6", "dom", "es2017"],
+    "lib": [
+      "es5",
+      "es6",
+      "dom",
+      "es2017"
+    ],
     "outDir": "./js/"
   },
   "paths": {
@@ -26,6 +31,7 @@
   "include": [
     "base/**/*",
     "apps/**/*",
+    "types/**/*",
     "src/**/*"
   ],
   "exclude": [
