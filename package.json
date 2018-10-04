@@ -133,7 +133,6 @@
     "swiper": "^4.4.1",
     "three": "^0.97.0",
     "tslint": "^5.11.0",
-    "tslint-config-airbnb": "^5.11.0",
     "tslint-loader": "^3.6.0",
     "tslint-react": "^3.6.0",
     "ts-loader": "^5.2.1",
