@@ -35,6 +35,15 @@ module.exports = {
         loader: 'eslint-loader'
       },
       // ES Lint End.
+      // Pending. Style Lint for Styled-Components.
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'stylelint-custom-processor-loader',
+        options: {
+          emitWarning: true
+        }
+      },
+      // Pending. Style Lint for Styled-Components. End.
       // ES2015 & React.
       {
         test: /\.(js|jsx)$/,
