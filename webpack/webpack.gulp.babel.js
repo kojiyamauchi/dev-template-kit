@@ -28,18 +28,26 @@ module.exports = {
   // Setting Rules According to JS Library and Framework.
   module: {
     rules: [
+      // ES Lint.
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'eslint-loader'
+      },
+      // ES Lint End.
       // If Using Riot.js
       {
         test: /\.tag$/,
         enforce: 'pre',
         exclude: /node_modules/,
         use: [
-        {
-          loader: 'riot-tag-loader',
-          options: {
-            debug: true
-          }
-        }]
+          {
+            loader: 'riot-tag-loader',
+            options: {
+              debug: true
+            }
+          }]
       },
       {
         test: /\.(js|tag)$/,
