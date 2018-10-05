@@ -27,26 +27,14 @@ module.exports = {
   // Setting Rules According to JS Library and Framework.
   module: {
     rules: [
-      // If Using Riot.js
+      // ES Lint.
       {
-        test: /\.tag$/,
         enforce: 'pre',
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: [
-        {
-          loader: 'riot-tag-loader',
-          options: {
-            debug: true
-          }
-        }]
+        loader: 'eslint-loader'
       },
-      {
-        test: /\.(js|tag)$/,
-        enforce: 'post',
-        exclude: /node_modules/,
-        loader: ['babel-loader']
-      },
-      // If Using Riot.js End.
+      // ES Lint End.
       // ES2015 & React.
       {
         test: /\.(js|jsx)$/,
@@ -82,10 +70,10 @@ module.exports = {
             options: {
               svgo: {
                 plugins: [
-                {
-                  removeTitle: true,
-                  removeDesc: true
-                }],
+                  {
+                    removeTitle: true,
+                    removeDesc: true
+                  }],
                 floatPrecision: 2
               }
             }
@@ -155,7 +143,6 @@ module.exports = {
     extensions: [
       '.js',
       '.ts',
-      '.tag',
       '.jsx',
       '.tsx',
       '.json',
