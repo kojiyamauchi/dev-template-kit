@@ -35,15 +35,6 @@ module.exports = {
         loader: 'eslint-loader'
       },
       // ES Lint End.
-      // Pending. Style Lint for Styled-Components.
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        loader: 'stylelint-custom-processor-loader',
-        options: {
-          emitWarning: true
-        }
-      },
-      // Pending. Style Lint for Styled-Components. End.
       // ES2015 & React.
       {
         test: /\.(js|jsx)$/,
@@ -51,14 +42,24 @@ module.exports = {
         loader: ['babel-loader']
       },
       // ES2015 & React End.
-      // React & TypeScript.
+      // TypeScript & React.
       // Use Loader -> 'ts-loader' or 'awesome-typescript-loader'.
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         loader: ['ts-loader', 'awesome-typescript-loader']
       },
-      // React & TypeScript End.
+      // TypeScript & React End.
+      // stylelint for Styled-Components.
+      {
+        test: /\.(js|jsx|tsx)$/,
+        exclude: /node_modules/,
+        loader: 'stylelint-custom-processor-loader',
+        options: {
+          emitWarning: true
+        }
+      },
+      // stylelint for Styled-Components. End.
       // Using Images. (Except SVG.)
       {
         test: /\.(jpg|png|gif)$/,
@@ -82,7 +83,8 @@ module.exports = {
                   {
                     removeTitle: true,
                     removeDesc: true
-                  }],
+                  }
+                ],
                 floatPrecision: 2
               }
             }
