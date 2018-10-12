@@ -151,6 +151,7 @@
   },
   "babel": {
     "presets": [
+      "es2015",
       "react",
       "next/babel",
       "es2015-riot",
@@ -185,11 +186,16 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts}": [
-      "eslint --fix",
-      "tslint --fix",
-      "prettier --write --no-semi --single-quote",
-      "git add"
+    "linters": {
+      "*.{js,ts}": [
+        "eslint --fix",
+        "tslint --fix",
+        "prettier --write --no-semi --single-quote",
+        "git add"
+      ]
+    },
+    "ignore": [
+      "**/*.min.js"
     ]
   },
   "scripts": {
