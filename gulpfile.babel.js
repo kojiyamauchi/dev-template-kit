@@ -147,7 +147,7 @@ gulp.task('prettify', () => {
 // compression images.
 gulp.task('imgMin', () => {
   return gulp
-    .src(addIMGDir + '(.jpg|.jpeg|.png|.gif)')
+    .src(`${addIMGDir}(.jpg|.jpeg|.png|.gif)`)
     .pipe(plumber())
     .pipe(changed(addIMGDir))
     .pipe(
@@ -166,7 +166,7 @@ gulp.task('imgMin', () => {
 // svg file compression.
 gulp.task('svgMin', () => {
   return gulp
-    .src(addIMGDir + '.svg')
+    .src(`${addIMGDir}.svg`)
     .pipe(plumber())
     .pipe(changed(addIMGDir))
     .pipe(svgMin())
