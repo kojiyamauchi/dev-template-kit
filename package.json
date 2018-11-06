@@ -192,7 +192,7 @@
       "*.{js,ts}": [
         "eslint --fix",
         "tslint --fix",
-        "prettier --write --no-semi --single-quote",
+        "prettier --write --no-semi --single-quote --print-width 160 --jsx-bracket-same-line true",
         "git add"
       ]
     },
