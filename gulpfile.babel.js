@@ -234,7 +234,7 @@ gulp.task('ftpUpLoad', () => {
 gulp.task('default', ['browserSync'], () => {
   // first task, local server connect & local browser sync.
   // ↓Select a task according to the project. プロジェクトで使用するタスクを選択しましょう。↓
-  //gulp.watch(['base/**/*', 'three/**/*'], ['webpack']) // JS File webpack.
+  //gulp.watch(['base/**/*'], ['webpack']) // JS File webpack.
   //gulp.watch('js/core.js', ['jsmin']) // watching change's JS flie, File Compression.
   //gulp.watch('sass/**/*.scss', ['sass']) // watching sass file save's auto compile & add vendor prefix automatically.
   //gulp.watch('css/app.css', ['cssmin']) // watching change's CSS flie, File Compression.
