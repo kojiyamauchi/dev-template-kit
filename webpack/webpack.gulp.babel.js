@@ -49,31 +49,11 @@ module.exports = {
         }
       },
       // TS Lint End.
-      // If Using Riot.js
-      {
-        test: /\.tag$/,
-        enforce: 'pre',
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'riot-tag-loader',
-            options: {
-              debug: true
-            }
-          }]
-      },
-      {
-        test: /\.(js|tag)$/,
-        enforce: 'post',
-        exclude: /node_modules/,
-        loader: ['babel-loader']
-      },
-      // If Using Riot.js End.
       // ES2015.
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: ['babel-loader']
+        loader: 'babel-loader'
       },
       // ES2015 End.
       // TypeScript.
@@ -107,7 +87,7 @@ module.exports = {
   // Setting for Import JS Modules.
   resolve: {
     // Setting for Cut the File Extension When Import JS Module.
-    extensions: ['.js', '.ts', '.tag', '.json'],
+    extensions: ['.js', '.ts', '.json'],
 
     // Setting for Project Root Dir, When Import JS Modules.
     alias: {
