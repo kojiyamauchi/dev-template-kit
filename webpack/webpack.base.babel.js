@@ -187,7 +187,7 @@ module.exports = {
   // Setting for Plugins.
   plugins: [
     /*
-    Read Issue Below on GitHub.
+    Read Issue Below on GitHub, Maybe Supported by Ver.5
     https://github.com/webpack/webpack/issues/8052
     new HardSourceWebpackPlugin() // Faster Build Plugins. Compile? Build? Which?
     */
