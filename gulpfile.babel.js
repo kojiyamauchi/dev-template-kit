@@ -231,18 +231,18 @@ gulp.task('ftpUpLoad', () => {
 })
 
 // gulp default task, terminal command 'gulp'.
-gulp.task('default', ['browserSync'], () => {
+gulp.task('default', gulp.parallel( 'browserSync', () => {
   // first task, local server connect & local browser sync.
   // ↓Select a task according to the project. プロジェクトで使用するタスクを選択しましょう。↓
-  //gulp.watch(['base/**/*'], ['webpack']) // JS File webpack.
-  //gulp.watch('js/core.js', ['jsmin']) // watching change's JS flie, File Compression.
-  //gulp.watch('sass/**/*.scss', ['sass']) // watching sass file save's auto compile & add vendor prefix automatically.
-  //gulp.watch('css/app.css', ['cssmin']) // watching change's CSS flie, File Compression.
-  //gulp.watch('ejs/*', ['ejs']) // watch ejs.
-  //gulp.watch('**/*.html', ['prettify']) // watch prettify.
-  //gulp.watch(addIMGDir, ['imgMin', 'svgMin']) // watching Img Dir compression.
-  //gulp.watch('**/*', ['rename']) // watching Rename Task.
-  //gulp.watch('**/*', ['delete']) // watching Delete Task.
-  //gulp.watch(upLoadFile, ['ftpUpLoad']) // watching file save's auto ftp upload.
-  gulp.watch(upLoadFile, ['localBrowserReload']) // watching file save's local browser reload.
-})
+  // gulp.watch('base/**/*', gulp.task('webpack')) // JS File webpack.
+  // gulp.watch('js/core.js', gulp.task('jsmin')) // watching change's JS flie, File Compression.
+  // gulp.watch('sass/**/*.scss', gulp.task('sass')) // watching sass file save's auto compile & add vendor prefix automatically.
+  // gulp.watch('css/app.css', gulp.task('cssmin')) // watching change's CSS flie, File Compression.
+  // gulp.watch('ejs/*', gulp.task('ejs')) // watch ejs.
+  // gulp.watch('**/*.html', gulp.task('prettify')) // watch prettify.
+  // gulp.watch(addIMGDir, gulp.parallel('imgMin', 'svgMin')) // watching Img Dir compression.
+  // gulp.watch('**/*', gulp.task('rename')) // watching Rename Task.
+  // gulp.watch('**/*', gulp.task('delete')) // watching Delete Task.
+  // gulp.watch(upLoadFile, gulp.task('ftpUpLoad')) // watching file save's auto ftp upload.
+  // gulp.watch(upLoadFile).on('change',() => browserSync.reload()) // watching file save's local browser reload.
+}))
