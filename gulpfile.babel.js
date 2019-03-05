@@ -48,7 +48,8 @@ const addIMGDir = 'addImages/*' // added image fold,
 const distIMGDir = 'images/*' // compression image fold,
 const upLoadFile = [
   // upload file.
-  'index.html',
+  '**/*.html',
+  '!node_modules/**/*.html',
   'css/app.min.css',
   'js/core.min.js',
   'images/*'
@@ -120,28 +121,26 @@ gulp.task('cssmin', () => {
     .pipe(gulp.dest('css/'))
 })
 
-// ejs funcitions.
-gulp.task('ejs', () => {
+// EJS Compile & Code Formatting for HTML.
+gulp.task('ejs', (done) => {
   return gulp
-    .src(['ejs/*', '!ejs/*.ejs'])
-    .pipe(ejs())
-    .pipe(gulp.dest('/'))
-})
-
-// Code Formatting for HTML.
-gulp.task('prettify', () => {
-  return gulp
-    .src('**/*.html')
-    .pipe(
-      prettify({
-        indent_size: 2,
-        indent_char: ' ',
-        end_with_newline: false,
-        preserve_newlines: false,
-        unformatted: ['span', 'a', 'img']
-      })
-    )
+    .src(['ejs/**/*.ejs', '!ejs/**/_*.ejs'])
+    .pipe(ejs({}, {}, { ext: '.html' }))
     .pipe(gulp.dest('.'))
+    .on('end', () => {
+      gulp.src('**/*.html', '!node_modules/**/*.html')
+      .pipe(
+        prettify({
+          indent_size: 2,
+          indent_char: ' ',
+          end_with_newline: false,
+          preserve_newlines: false,
+          unformatted: ['span', 'a', 'img']
+        })
+      )
+      .pipe(gulp.dest('.'))
+      .on('end', done)
+    })
 })
 
 // compression images.
@@ -238,11 +237,18 @@ gulp.task('default', gulp.parallel( 'browserSync', () => {
   // gulp.watch('js/core.js', gulp.task('jsmin')) // watching change's JS flie, File Compression.
   // gulp.watch('sass/**/*.scss', gulp.task('sass')) // watching sass file save's auto compile & add vendor prefix automatically.
   // gulp.watch('css/app.css', gulp.task('cssmin')) // watching change's CSS flie, File Compression.
-  // gulp.watch('ejs/*', gulp.task('ejs')) // watch ejs.
-  // gulp.watch('**/*.html', gulp.task('prettify')) // watch prettify.
+  // gulp.watch('ejs/**/*', gulp.task('ejs')) // watch ejs.
   // gulp.watch(addIMGDir, gulp.parallel('imgMin', 'svgMin')) // watching Img Dir compression.
   // gulp.watch('**/*', gulp.task('rename')) // watching Rename Task.
   // gulp.watch('**/*', gulp.task('delete')) // watching Delete Task.
   // gulp.watch(upLoadFile, gulp.task('ftpUpLoad')) // watching file save's auto ftp upload.
-  // gulp.watch(upLoadFile).on('change',() => browserSync.reload()) // watching file save's local browser reload.
+  /*
+  let timeID // watching file save's local browser reload & adjusted reload start time.
+  gulp.watch(upLoadFile).on('change',() => {
+    clearTimeout(timeID)
+      timeID = setTimeout(() => {
+        browserSync.reload()
+      }, 1000)
+    })
+  */
 }))
