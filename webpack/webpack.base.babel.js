@@ -52,7 +52,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader?cacheDirectory'
       },
       // ES2015 & React End.
       // TypeScript & React.
