@@ -29,7 +29,7 @@ export default webpackMerge(webpackBase, {
     progress: true, // Displayed Progress of Conversion on Terminal.
     clientLogLevel: 'info', // Created Log Level.
     contentBase: `${__dirname}/../`, // This API's Necessary When Using 'webpack dev server' on Root of index.html.
-    //publicPath: '/', // Setting Root on 'webpack dev server'. Unnecessary Maybe...
+    // publicPath: '/', // Setting Root on 'webpack dev server'. Unnecessary Maybe...
     historyApiFallback: true, // When Using the HTML5 History API, The index.html Page Will Likely Have to be Served in Place of Any 404 Responses. Enable This by Passing.
     watchOptions: {
       poll: true // Using When File Update is Not Detected Correctly.

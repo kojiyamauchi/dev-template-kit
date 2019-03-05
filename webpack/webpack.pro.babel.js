@@ -8,11 +8,11 @@ import webpack from 'webpack'
 // Import webpack Merge.
 import webpackMerge from 'webpack-merge'
 
-// Import Uglifyjs webpack Plugin.
-import uglifyJSPlugin from 'uglifyjs-webpack-plugin'
+// Import Terser webpack Plugin.
+import TerserPlugin from 'terser-webpack-plugin'
 
 // Import License Info webpack Plugin.
-import licenseInfoWebpackPlugin from 'license-info-webpack-plugin'
+import LicenseInfoWebpackPlugin from 'license-info-webpack-plugin'
 
 // Import webpack Base.
 import webpackBase from './webpack.base.babel'
@@ -24,7 +24,7 @@ export default webpackMerge(webpackBase, {
   // Setting for Plugins.
   plugins: [
     // When Minify of Production's JS File, Keep License Comment Out.
-    new licenseInfoWebpackPlugin({
+    new LicenseInfoWebpackPlugin({
       glob: '{LICENSE,license,License}*'
     }),
     /* Even when it is already sufficiently compressed,
@@ -35,9 +35,9 @@ export default webpackMerge(webpackBase, {
   // Advanced Setting for Plugins.
   optimization: {
     minimizer: [
-      // For Uglifyjs webpack Plugin.
-      new uglifyJSPlugin({
-        uglifyOptions: {
+      // For Terser webpack Plugin.
+      new TerserPlugin({
+        terserOptions: {
           compress: {
             // Delete console.log(), When Minify of JS File.
             drop_console: true
