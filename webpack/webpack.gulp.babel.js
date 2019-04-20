@@ -31,24 +31,11 @@ module.exports = {
       // ES Lint.
       {
         enforce: 'pre',
-        test: /\.js$/,
+        test: /\.(js|ts)$/,
         exclude: /node_modules/,
         loader: 'eslint-loader'
       },
       // ES Lint End.
-      // TS Lint.
-      // Compare Editor Settings.
-      {
-        enforce: 'pre',
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        loader: 'tslint-loader',
-        options: {
-          typeCheck: true,
-          fix: true
-        }
-      },
-      // TS Lint End.
       // ES2015.
       {
         test: /\.js$/,
