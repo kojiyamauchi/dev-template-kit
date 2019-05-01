@@ -35,7 +35,7 @@ settings:
 #
 # Set Linting Rules Below.
 extends:
-  - "eslint:recommended"
+  - "standard"
   - "plugin:@typescript-eslint/recommended"
   - "plugin:prettier/recommended"
 rules:
