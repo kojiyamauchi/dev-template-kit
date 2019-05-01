@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "core-js": "3",
     "global": "^4.3.2"
   },
   "devDependencies": {
@@ -166,7 +167,8 @@
         {
           "targets": "> 0.25%, not dead",
           "useBuiltIns": "usage",
-          "modules": false
+          "modules": false,
+          "corejs": 3
         }
       ],
       "@babel/preset-react"
