@@ -12,6 +12,7 @@ parserOptions:
   sourceType: module
   ecmaFeatures:
     jsx: true
+  extraFileExtensions: ".vue"
 plugins:
   - "@typescript-eslint"
   - prettier
@@ -29,6 +30,7 @@ settings:
       - ".ts"
       - ".jsx"
       - ".tsx"
+      - ".vue"
       - ".json"
       - ".node"
 #
