@@ -1,4 +1,5 @@
 .DS_Store
 node_modules/
+.history/
 comment_of_package_json.yml
 tslint-files/
