@@ -68,7 +68,7 @@ gulp.task('webpack', () => {
 // JS File Compression.
 gulp.task('jsmin', () => {
   return gulp
-    .src('js/core.js')
+    .src('js/*.js', '!/js/*.min.js')
     .pipe(
       jsmin({
         output: {
@@ -186,7 +186,7 @@ gulp.task('rename', () => {
 
 // File Delete Task.
 gulp.task('delete', cb => {
-  return del(['**/.DS_Store'], cb)
+  return del(['**/.DS_Store', 'js/*.js', '!/js/*.min.js'], cb)
 })
 
 // local browser connect & sync.

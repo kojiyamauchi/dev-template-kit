@@ -8,20 +8,26 @@ import webpack from 'webpack'
 // Import Node.js 'path' Modules. Using for Setting of Root Dir.
 import path from 'path'
 
+// Import 'glob' Modules.
+import glob from 'glob'
+
+// Setting Multiple Entry Points for Static Website.
+const baseDir = './base/'
+const entries = {}
+glob.sync('*.js', { cwd: baseDir }).map(info => entries[info] = baseDir + info)
+
 // Setting Start.
 module.exports = {
   // Setting webpack Mode.
-  // If Using npm Script, This Code's CommentOut. Because, Mode Setting is Done by npm Script & package.json.
-  // This Setting is Using gulp Only.
   mode: 'development',
 
   // JS Core File Entry Point.
-  entry: './base/core.js', // If Using React & TypeScript.. => './base/core.tsx', Else If Using TypeScript Only.. => './base/core.ts'.
+  entry: entries,
 
   // JS Core File Dist Point.
   output: {
-    path: `${__dirname}/js/`, // <= If Using gulp, Use This Path. & Remove webpack.dev.babel.js & webpack.pro.babel.js
-    filename: 'core.js' // <= If Using gulp, Use This Filename.
+    path: `${__dirname}/js/`,
+    filename: '[name]'
   },
 
   // Core Settings is Below.
