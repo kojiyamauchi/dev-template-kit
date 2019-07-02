@@ -39,7 +39,7 @@ import sftp from 'gulp-sftp'
 
 // Settings.
 const autoprefixerBrowserList = [ 'last 2 version', 'ie >= 10', 'iOS >= 8', ]
-const postCSSPlugIn = [autoprefixer({ browsers: autoprefixerBrowserList }), fixFlexBugs]
+const postCSSPlugIn = [autoprefixer({ browsers: autoprefixerBrowserList, grid: true }), fixFlexBugs]
 const inImages = 'addImages/*'
 const outImages = 'images/'
 const buildFiles = [
