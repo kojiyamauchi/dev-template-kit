@@ -9,6 +9,7 @@ import { src, dest, lastRun, parallel, watch } from 'gulp'
 // Utilities.
 import utility from 'gulp-util'
 import plumber from 'gulp-plumber'
+import notify from 'gulp-notify'
 import rename from 'gulp-rename'
 import del from 'del'
 // For Webpack.
@@ -16,7 +17,7 @@ import webpack from 'webpack'
 import webpackStream from 'webpack-stream'
 import webpackGulp from './webpack/webpack.gulp.babel'
 // For JS.
-import jsmin from 'gulp-uglify'
+import terser from 'gulp-terser'
 import ejs from 'gulp-ejs'
 // For Sass & CSS.
 import sass from 'gulp-sass'
@@ -63,7 +64,8 @@ export const onWebpack = () => {
 // Compression JS.
 export const onJsmin = () => {
   return src('js/*.js', '!/js/*.min.js')
-  .pipe(jsmin())
+  .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
+  .pipe(terser())
   .pipe(rename({ suffix: '.min' }))
   .pipe(dest('js/'))
 }
@@ -71,7 +73,7 @@ export const onJsmin = () => {
 // Compile sass.
 export const onSass = () => {
   return src('sass/**/*.scss', { sourcemaps: true })
-  .pipe(plumber({ errorHander: error => console.log(error.message) }))
+  .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
   .pipe(sassGlob())
   .pipe(sass({ outputStyle: 'expanded' }))
   .pipe(postCSS(postCSSPlugIn))
