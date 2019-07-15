@@ -12,6 +12,8 @@ import plumber from 'gulp-plumber'
 import notify from 'gulp-notify'
 import rename from 'gulp-rename'
 import del from 'del'
+import replace from 'gulp-replace'
+import crypto from 'crypto'
 // For Webpack.
 import webpack from 'webpack'
 import webpackStream from 'webpack-stream'
@@ -25,6 +27,7 @@ import sassGlob from 'gulp-sass-glob'
 import postCSS from 'gulp-postcss'
 import autoprefixer from 'autoprefixer'
 import fixFlexBugs from 'postcss-flexbugs-fixes'
+import cachebuster from 'postcss-cachebuster'
 import csscomb from 'gulp-csscomb'
 import cssmin from 'gulp-cssmin'
 // For HTML.
@@ -40,7 +43,7 @@ import sftp from 'gulp-sftp'
 
 // Settings.
 const autoprefixerBrowserList = [ 'last 2 version', 'ie >= 10', 'iOS >= 8', ]
-const postCSSPlugIn = [autoprefixer({ browsers: autoprefixerBrowserList, grid: true }), fixFlexBugs]
+const postCSSPlugIn = [autoprefixer({ browsers: autoprefixerBrowserList, grid: true }), fixFlexBugs, cachebuster()]
 const inImages = 'addImages/*'
 const outImages = 'images/'
 const buildFiles = [
@@ -49,6 +52,16 @@ const buildFiles = [
   'js/**.min.js',
   'images/**/*',
   '!node_modules/**/*.html'
+]
+const cacheBustingFiles = [
+  '**/*.html',
+  '!node_modules/**/*.html'
+]
+const runningEjsFiles = [
+  'base/**/*',
+  'sass/**/*',
+  'ejs/**/*',
+  'images/**/*'
 ]
 
 // Compile JS, Using webpack.
@@ -95,7 +108,13 @@ export const onEjs = done => {
   .pipe(ejs({}, {}, { ext: '.html' }))
   .pipe(dest('.'))
   .on('end', () => {
-    src('**/*.html', '!node_modules/**/*.html')
+    src(cacheBustingFiles)
+    .pipe(
+      replace(/\.(js|css|jpg|jpeg|png|svg|gif)\?rev/g, match => {
+        const revision = () => crypto.randomBytes(8).toString('hex')
+        return `${match}=${revision()}`
+      })
+    )
     .pipe(
       prettify({
         indent_size: 2,
@@ -181,7 +200,7 @@ exports.default = parallel( onBrowserSync, () => {
   if(switches.jsmin) watch(['js/*.js', '!/js/*.min.js'], onJsmin)
   if(switches.sass) watch('sass/**/*.scss', onSass)
   if(switches.cssmin) watch(['css/*.css', '!css/*.min.css'], onCssmin)
-  if(switches.ejs) watch('ejs/**/*', onEjs)
+  if(switches.ejs) watch(runningEjsFiles, onEjs)
   if(switches.delete) watch(buildFiles, onDelete)
   if(switches.imgmin) watch(inImages, parallel(onImgmin, onSvgmin))
   if(switches.rename) watch('**/*', onRename)
@@ -199,7 +218,7 @@ const switches = {
   jsmin: true,
   sass: true,
   cssmin: true,
-  ejs: false,
+  ejs: true,
   delete: true,
   imgmin: false,
   rename: false,
