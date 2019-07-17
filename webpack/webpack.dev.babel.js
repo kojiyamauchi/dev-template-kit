@@ -25,7 +25,7 @@ export default webpackMerge(webpackBase, {
   // Setting for 'webpack dev server'. -> Replace later for 'webpack serve'
   devServer: {
     port: 3000, // Setting Port of 'webpack dev server'.
-    open: 'google chrome', // Setting Default Browser.
+    open: 'google chrome canary', // Setting Default Browser.
     progress: true, // Displayed Progress of Conversion on Terminal.
     clientLogLevel: 'info', // Created Log Level.
     contentBase: `${__dirname}/../`, // This API's Necessary When Using 'webpack dev server' on Root of index.html.
