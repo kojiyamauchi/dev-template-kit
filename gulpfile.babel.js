@@ -1,7 +1,7 @@
 'use strict'
 
 // Import Gulp API.
-import { src, dest, lastRun, parallel, watch } from 'gulp'
+import { src, dest, lastRun, series, parallel, watch } from 'gulp'
 
 /*
  Plugin Modules.
@@ -42,7 +42,7 @@ import ftp from 'vinyl-ftp'
 import sftp from 'gulp-sftp'
 
 // Settings.
-const autoprefixerBrowserList = [ 'last 2 version', 'ie >= 10', 'iOS >= 8', ]
+const autoprefixerBrowserList = [ 'last 2 version', 'ie >= 11', 'iOS >= 8', ]
 const postCSSPlugIn = [autoprefixer({ browsers: autoprefixerBrowserList, grid: true }), fixFlexBugs, cachebuster()]
 const inImages = 'addImages/*'
 const outImages = 'images/'
@@ -57,7 +57,7 @@ const cacheBustingFiles = [
   '**/*.html',
   '!node_modules/**/*.html'
 ]
-const runningEjsFiles = [
+const runTemplatesTaskFiles = [
   'base/**/*',
   'sass/**/*',
   'ejs/**/*',
@@ -83,6 +83,11 @@ export const onJsmin = () => {
   .pipe(dest('js/'))
 }
 
+// JS Series Tasks.
+export const onEcma = series(onWebpack, onJsmin)
+/*
+*/
+
 // Compile sass.
 export const onSass = () => {
   return src('sass/**/*.scss', { sourcemaps: true })
@@ -102,13 +107,21 @@ export const onCssmin = () => {
   .pipe(dest('css/'))
 }
 
-// Compile EJS -> Code Formatting for HTML.
-export const onEjs = done => {
+// Style Series Tasks.
+export const onStyles = series(onSass, onCssmin)
+/*
+*/
+
+// Compile EJS.
+export const onEjs = () => {
   return src(['ejs/**/*.ejs', '!ejs/**/_*.ejs'])
-  .pipe(ejs({}, {}, { ext: '.html' }))
-  .pipe(dest('.'))
-  .on('end', () => {
-    src(cacheBustingFiles)
+    .pipe(ejs({}, {}, { ext: '.html' }))
+    .pipe(dest('.'))
+}
+
+// Add Cache Busting to File Path & Code Formatting for HTML.
+export const onCacheBusting = () => {
+  return src(cacheBustingFiles)
     .pipe(
       replace(/\.(js|css|jpg|jpeg|png|svg|gif)\?rev/g, match => {
         const revision = () => crypto.randomBytes(8).toString('hex')
@@ -125,8 +138,18 @@ export const onEjs = done => {
       })
     )
     .pipe(dest('.'))
-    .on('end', done)
-  })
+}
+
+// Template Series Tasks.
+export const onTemplates = series(onEjs, onCacheBusting)
+/*
+*/
+
+// Delete Query String for Cache Busting.
+export const onDeleteCacheBusting = () => {
+  return src('ejs/**/*.ejs')
+  .pipe(replace('?rev', ''))
+  .pipe(dest('ejs/'))
 }
 
 // Delete Unnecessary Files.
@@ -143,7 +166,7 @@ export const onDelete = cb => {
     ], cb)
 }
 
-// Compression Image Files.
+// Compression Images.
 export const onImgmin = () => {
   return src(`${inImages}(.jpg|.jpeg|.png|.gif)`, { since: lastRun(onImgmin) })
   .pipe(plumber())
@@ -183,7 +206,7 @@ export const onFtpUpLoad = () => {
 // Start Up Local Browser.
 export const onBrowserSync = () => {
   return browserSync({
-    browser: 'google chrome',
+    browser: 'google chrome canary',
     open: 'external',
     notify: false,
     /* if Setting Proxy.
@@ -196,29 +219,25 @@ export const onBrowserSync = () => {
 
 // Default Tasks.
 exports.default = parallel( onBrowserSync, () => {
-  if(switches.webpack) watch('base/**/*', onWebpack)
-  if(switches.jsmin) watch(['js/*.js', '!/js/*.min.js'], onJsmin)
-  if(switches.sass) watch('sass/**/*.scss', onSass)
-  if(switches.cssmin) watch(['css/*.css', '!css/*.min.css'], onCssmin)
-  if(switches.ejs) watch(runningEjsFiles, onEjs)
-  if(switches.delete) watch(buildFiles, onDelete)
-  if(switches.imgmin) watch(inImages, parallel(onImgmin, onSvgmin))
-  if(switches.rename) watch('**/*', onRename)
-  if(switches.ftp) watch(buildFiles, onFtpUpLoad)
+  if (switches.ecma) watch('base/**/*', onEcma)
+  if (switches.styles) watch('sass/**/*.scss', onStyles)
+  if (switches.templates) watch(runTemplatesTaskFiles, onTemplates)
+  if (switches.delete) watch(buildFiles, onDelete)
+  if (switches.imgmin) watch(inImages, parallel(onImgmin, onSvgmin))
+  if (switches.rename) watch('**/*', onRename)
+  if (switches.ftp) watch(buildFiles, onFtpUpLoad)
   let timeID
   watch(buildFiles).on('change',() => {
     clearTimeout(timeID)
-    timeID = setTimeout(() => browserSync.reload(), 1000)
+    timeID = setTimeout(() => browserSync.reload(), 2000)
   })
 })
 
 // Switches.
 const switches = {
-  webpack: true,
-  jsmin: true,
-  sass: true,
-  cssmin: true,
-  ejs: true,
+  ecma: true,
+  styles: true,
+  templates: true,
   delete: true,
   imgmin: false,
   rename: false,
