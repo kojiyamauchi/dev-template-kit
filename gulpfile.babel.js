@@ -217,7 +217,10 @@ export const onBrowserSync = () => {
   })
 }
 
-// Default Tasks.
+// Build Files.
+export const onBuild = parallel(onEcma, onStyles, onTemplates)
+
+// Development.
 exports.default = parallel( onBrowserSync, () => {
   if (switches.ecma) watch('base/**/*', onEcma)
   if (switches.styles) watch('sass/**/*.scss', onStyles)
