@@ -44,8 +44,7 @@ import ftp from 'vinyl-ftp'
 import sftp from 'gulp-sftp'
 
 // Settings.
-const autoprefixerBrowserList = [ 'last 2 version', 'ie >= 11', 'iOS >= 8', ]
-const postCSSPlugIn = [autoprefixer({ browsers: autoprefixerBrowserList, grid: true }), fixFlexBugs, cachebuster()]
+const postCSSPlugIn = [autoprefixer({ grid: true }), fixFlexBugs, cachebuster()]
 const inImages = 'addImages/*'
 const outImages = 'images/'
 const buildFiles = [
@@ -78,7 +77,7 @@ export const onWebpack = () => {
 
 // Minify JS.
 export const onJsmin = () => {
-  return src('js/*.js', '!/js/*.min.js')
+  return src(['js/*.js', '!js/*.min.js'])
   .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
   .pipe(terser())
   .pipe(rename({ suffix: '.min' }))
@@ -98,7 +97,7 @@ export const onSass = () => {
 
 // Minify CSS.
 export const onCssmin = () => {
-  return src('css/*.css', '!css/*.min.css')
+  return src(['css/*.css', '!css/**.min.css'])
   .pipe(cssmin())
   .pipe(rename({ suffix: '.min' }))
   .pipe(dest('css/'))
@@ -225,15 +224,15 @@ exports.default = parallel(onBrowserSync, () => {
   if (switches.ecma) watch('base/**/*', onEcma)
   if (switches.styles) watch('sass/**/*.scss', onStyles)
   if (switches.templates) watch(templatesMonitor, onTemplates)
-  if (switches.delete) watch(buildFiles, onDelete)
   if (switches.imgmin) watch(inImages, parallel(onImgmin, onSvgmin))
   if (switches.rename) watch('**/*', onRename)
   let timeID
   watch(buildFiles).on('change',() => {
     clearTimeout(timeID)
     timeID = setTimeout(() => {
-      browserSync.reload()
+      if (switches.delete) onDelete()
       if (switches.deploy) onDeploy()
+      browserSync.reload()
     }, 1000)
   })
 })
