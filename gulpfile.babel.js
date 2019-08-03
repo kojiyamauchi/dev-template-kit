@@ -65,7 +65,7 @@ const cacheBusting = [
   '!node_modules/**/*.html'
 ]
 
-// Compile JS, Using webpack.
+// Compile JS by webpack.
 export const onWebpack = () => {
   return webpackStream(webpackGulp, webpack)
   .on('error', function () {
@@ -106,7 +106,8 @@ export const onCssmin = () => {
 // Compile EJS.
 export const onEjs = () => {
   return src(['ejs/**/*.ejs', '!ejs/**/_*.ejs'])
-    .pipe(ejs({}, {}, { ext: '.html' }))
+    .pipe(ejs())
+    .pipe(rename({ extname: '.html' }))
     .pipe(dest('.'))
 }
 
@@ -155,7 +156,7 @@ export const onDelete = cb => {
       'js/*.js',
       'css/*.css',
       '**/*.ejs',
-      '!/js/*.min.js',
+      '!js/*.min.js',
       '!css/*.min.css',
       '!ejs/**/*',
     ], cb)
@@ -198,7 +199,7 @@ export const onBrowserSync = () => {
   })
 }
 
-// When Deploying, Using FTP.
+// When Deploying by FTP.
 export const onDeploy = () => {
   const ftpConnect = ftp.create({
     host: '***',
@@ -214,9 +215,9 @@ export const onDeploy = () => {
 
 // Build.
 // Logic / Style / Template / All.
-export const onEcma = series(onWebpack, onJsmin)
-export const onStyles = series(onSass, onCssmin)
-export const onTemplates = series(onEjs, onCacheBusting)
+export const onEcma = series(onWebpack, onJsmin, onDelete)
+export const onStyles = series(onSass, onCssmin, onDelete)
+export const onTemplates = series(onEjs, onCacheBusting, onDelete)
 export const onBuild = parallel(onEcma, onStyles, onTemplates)
 
 // Development.
@@ -227,13 +228,12 @@ exports.default = parallel(onBrowserSync, () => {
   if (switches.imgmin) watch(inImages, parallel(onImgmin, onSvgmin))
   if (switches.rename) watch('**/*', onRename)
   let timeID
-  watch(buildFiles).on('change',() => {
+  watch(cacheBusting).on('change',() => {
     clearTimeout(timeID)
     timeID = setTimeout(() => {
-      if (switches.delete) onDelete()
       if (switches.deploy) onDeploy()
       browserSync.reload()
-    }, 1000)
+    }, 2000)
   })
 })
 
@@ -242,7 +242,6 @@ const switches = {
   ecma: true,
   styles: true,
   templates: true,
-  delete: true,
   imgmin: false,
   rename: false,
   deploy: false,
