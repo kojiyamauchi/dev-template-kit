@@ -78,6 +78,8 @@
     "gulp-csscomb": "^3.0.8",
     "gulp-cssmin": "^0.2.0",
     "gulp-ejs": "^4.1.1",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-if": "^3.0.0",
     "gulp-imagemin": "^6.0.0",
     "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.1",
