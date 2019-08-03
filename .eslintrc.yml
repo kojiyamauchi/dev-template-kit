@@ -65,4 +65,8 @@ rules:
   "import/order": off
   "sort-keys": off
   "no-multiple-empty-lines": off
+  "lines-between-class-members":
+    - error
+    - always
+    - exceptAfterSingleLine: true
   "no-console": off
