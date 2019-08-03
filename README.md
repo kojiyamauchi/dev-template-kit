@@ -21,7 +21,7 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
   - -> `yarn check-pkg`
 - Update npm Package on package.json. ( ncu )
   - -> `yarn update-pkg`
-- Delete yarn.lock File.
-  - -> `rm yarn.lock`
+- Delete yarn.lock & node_modules.
+  - -> `rm yarn.lock` & `rm -rf node_modules`
 - Re:Install All Packages.
   - -> `yarn install`
