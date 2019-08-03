@@ -167,6 +167,10 @@
     "webpack-merge": "^4.2.1",
     "webpack-stream": "^5.2.1"
   },
+  "browserslist": [
+    "last 2 versions",
+    "ie >= 11"
+  ],
   "babel": {
     "presets": [
       [
