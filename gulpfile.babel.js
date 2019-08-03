@@ -14,6 +14,7 @@ import rename from 'gulp-rename'
 import del from 'del'
 import replace from 'gulp-replace'
 import crypto from 'crypto'
+import gulpIf from 'gulp-if'
 // For Webpack.
 import webpack from 'webpack'
 import webpackStream from 'webpack-stream'
@@ -30,8 +31,9 @@ import fixFlexBugs from 'postcss-flexbugs-fixes'
 import cachebuster from 'postcss-cachebuster'
 import csscomb from 'gulp-csscomb'
 import cssmin from 'gulp-cssmin'
-// For HTML.
-import prettify from 'gulp-prettify'
+// For Template.
+import templateMinify from 'gulp-htmlmin'
+import templatePrettify from 'gulp-prettify'
 // For Images.
 import imgMin from 'gulp-imagemin'
 import pngMin from 'imagemin-pngquant'
@@ -53,15 +55,15 @@ const buildFiles = [
   'images/**/*',
   '!node_modules/**/*.html'
 ]
-const cacheBustingFiles = [
-  '**/*.html',
-  '!node_modules/**/*.html'
-]
-const runTemplatesTaskFiles = [
-  'base/**/*',
-  'sass/**/*',
+const templatesMonitor = [
+  'js/**.min.js',
+  'css/**.min.css',
   'ejs/**/*',
   'images/**/*'
+]
+const cacheBusting = [
+  '**/*.html',
+  '!node_modules/**/*.html'
 ]
 
 // Compile JS, Using webpack.
@@ -74,7 +76,7 @@ export const onWebpack = () => {
   .pipe(dest('js/'))
 }
 
-// Compression JS.
+// Minify JS.
 export const onJsmin = () => {
   return src('js/*.js', '!/js/*.min.js')
   .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
@@ -82,11 +84,6 @@ export const onJsmin = () => {
   .pipe(rename({ suffix: '.min' }))
   .pipe(dest('js/'))
 }
-
-// JS Series Tasks.
-export const onEcma = series(onWebpack, onJsmin)
-/*
-*/
 
 // Compile sass.
 export const onSass = () => {
@@ -99,18 +96,13 @@ export const onSass = () => {
   .pipe(dest('css/', { sourcemaps: '../maps' }))
 }
 
-// Compression CSS.
+// Minify CSS.
 export const onCssmin = () => {
   return src('css/*.css', '!css/*.min.css')
   .pipe(cssmin())
   .pipe(rename({ suffix: '.min' }))
   .pipe(dest('css/'))
 }
-
-// Style Series Tasks.
-export const onStyles = series(onSass, onCssmin)
-/*
-*/
 
 // Compile EJS.
 export const onEjs = () => {
@@ -119,9 +111,9 @@ export const onEjs = () => {
     .pipe(dest('.'))
 }
 
-// Add Cache Busting to File Path & Code Formatting for HTML.
+// Add Cache Busting to File Path & Minify or Prettify for Template.
 export const onCacheBusting = () => {
-  return src(cacheBustingFiles)
+  return src(cacheBusting)
     .pipe(
       replace(/\.(js|css|jpg|jpeg|png|svg|gif)\?rev/g, match => {
         const revision = () => crypto.randomBytes(8).toString('hex')
@@ -129,21 +121,25 @@ export const onCacheBusting = () => {
       })
     )
     .pipe(
-      prettify({
-        indent_size: 2,
-        indent_char: ' ',
-        end_with_newline: false,
-        preserve_newlines: false,
-        unformatted: ['span', 'a', 'img']
-      })
-    )
+      gulpIf(
+        switches.templatemin,
+          templateMinify({
+            minifyJS: true,
+            minifyCSS: true,
+            collapseWhitespace : true,
+            removeComments : true
+          }),
+          templatePrettify({
+            indent_size: 2,
+            indent_char: ' ',
+            end_with_newline: false,
+            preserve_newlines: false,
+            unformatted: ['span', 'a', 'img']
+          })
+        )
+      )
     .pipe(dest('.'))
 }
-
-// Template Series Tasks.
-export const onTemplates = series(onEjs, onCacheBusting)
-/*
-*/
 
 // Delete Query String for Cache Busting.
 export const onDeleteCacheBusting = () => {
@@ -189,21 +185,7 @@ export const onRename = () => {
   .pipe(dest('.'))
 }
 
-// When File Uploading on Server by FTP.
-export const onFtpUpLoad = () => {
-  const ftpConnect = ftp.create({
-    host: '***',
-    user: '***',
-    password: '***',
-    parallel: 7,
-    log: utility.log
-  })
-  return src(buildFiles, { base: '.', buffer: false })
-  .pipe(ftpConnect.newer('/'))
-  .pipe(ftpConnect.dest('/'))
-}
-
-// Start Up Local Browser.
+// Launch Local Browser.
 export const onBrowserSync = () => {
   return browserSync({
     browser: 'google chrome canary',
@@ -217,22 +199,42 @@ export const onBrowserSync = () => {
   })
 }
 
-// Build Files.
+// When Deploying, Using FTP.
+export const onDeploy = () => {
+  const ftpConnect = ftp.create({
+    host: '***',
+    user: '***',
+    password: '***',
+    parallel: 7,
+    log: utility.log
+  })
+  return src(buildFiles, { base: '.', buffer: false })
+  .pipe(ftpConnect.newer('/'))
+  .pipe(ftpConnect.dest('/'))
+}
+
+// Build.
+// Logic / Style / Template / All.
+export const onEcma = series(onWebpack, onJsmin)
+export const onStyles = series(onSass, onCssmin)
+export const onTemplates = series(onEjs, onCacheBusting)
 export const onBuild = parallel(onEcma, onStyles, onTemplates)
 
 // Development.
-exports.default = parallel( onBrowserSync, () => {
+exports.default = parallel(onBrowserSync, () => {
   if (switches.ecma) watch('base/**/*', onEcma)
   if (switches.styles) watch('sass/**/*.scss', onStyles)
-  if (switches.templates) watch(runTemplatesTaskFiles, onTemplates)
+  if (switches.templates) watch(templatesMonitor, onTemplates)
   if (switches.delete) watch(buildFiles, onDelete)
   if (switches.imgmin) watch(inImages, parallel(onImgmin, onSvgmin))
   if (switches.rename) watch('**/*', onRename)
-  if (switches.ftp) watch(buildFiles, onFtpUpLoad)
   let timeID
   watch(buildFiles).on('change',() => {
     clearTimeout(timeID)
-    timeID = setTimeout(() => browserSync.reload(), 2000)
+    timeID = setTimeout(() => {
+      browserSync.reload()
+      if (switches.deploy) onDeploy()
+    }, 1000)
   })
 })
 
@@ -244,5 +246,6 @@ const switches = {
   delete: true,
   imgmin: false,
   rename: false,
-  ftp: false
+  deploy: false,
+  templatemin: true
 }
