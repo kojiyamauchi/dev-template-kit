@@ -97,7 +97,7 @@ export const onSass = () => {
 
 // Minify CSS.
 export const onCssmin = () => {
-  return src(['css/*.css', '!css/**.min.css'])
+  return src(['css/*.css', '!css/*.min.css'])
   .pipe(cssmin())
   .pipe(rename({ suffix: '.min' }))
   .pipe(dest('css/'))
