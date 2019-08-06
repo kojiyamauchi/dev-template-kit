@@ -9,9 +9,9 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
   - -> `yarn init`
 - Install All Packages.
   - -> `yarn install`
-- If Creating Static Website.
+- When Creating Static Website.
   - -> `gulp` or `yarn gulp`
-- If Creating Web Application, Using JavaScript Framework or Library.
+- When Creating Web Application, Using JavaScript Framework or Library.
   - Development -> `yarn dev`
   - Build -> `yarn build`
 
