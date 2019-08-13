@@ -70,3 +70,4 @@ rules:
     - always
     - exceptAfterSingleLine: true
   "no-console": off
+  "unicorn/number-literal-case": off
