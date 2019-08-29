@@ -11,6 +11,9 @@ import path from 'path'
 // Import 'glob' Modules.
 import glob from 'glob'
 
+// Import Notify Desktop.
+import WebpackBuildNotifierPlugin from 'webpack-build-notifier'
+
 // Setting Multiple Entry Points for Static Website.
 const baseDir = './base/'
 const entries = {}
@@ -94,7 +97,10 @@ module.exports = {
   // Setting for Import JS Modules End.
 
   // Setting for Plugins.
-  plugins: [],
+  plugins: [
+    // Notify Desktop When a Compile Error.
+    new WebpackBuildNotifierPlugin({ suppressSuccess: 'initial' })
+  ],
   // Setting for Plugins End.
 
   // Setting for Warning on Terminal.
