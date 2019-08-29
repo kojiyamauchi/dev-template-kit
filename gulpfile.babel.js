@@ -15,13 +15,11 @@ import del from 'del'
 import replace from 'gulp-replace'
 import crypto from 'crypto'
 import gulpIf from 'gulp-if'
-// For Webpack.
+// For Webpack & JS.
 import webpack from 'webpack'
 import webpackStream from 'webpack-stream'
 import webpackGulp from './webpack/webpack.gulp.babel'
-// For JS.
 import terser from 'gulp-terser'
-import ejs from 'gulp-ejs'
 // For Sass & CSS.
 import sass from 'gulp-sass'
 import sassGlob from 'gulp-sass-glob'
@@ -32,6 +30,7 @@ import cachebuster from 'postcss-cachebuster'
 import csscomb from 'gulp-csscomb'
 import cssmin from 'gulp-cssmin'
 // For Template.
+import ejs from 'gulp-ejs'
 import templateMinify from 'gulp-htmlmin'
 import templatePrettify from 'gulp-prettify'
 // For Images.
