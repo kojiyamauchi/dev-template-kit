@@ -69,7 +69,6 @@ export const onWebpack = () => {
   return webpackStream(webpackGulp, webpack)
   .on('error', function () {
     this.emit('end')
-    console.log('error')
   })
   .pipe(dest('js/'))
 }
@@ -77,7 +76,6 @@ export const onWebpack = () => {
 // Minify JS.
 export const onJsmin = () => {
   return src(['js/*.js', '!js/*.min.js'])
-  .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
   .pipe(terser())
   .pipe(rename({ suffix: '.min' }))
   .pipe(dest('js/'))
@@ -105,6 +103,7 @@ export const onCssmin = () => {
 // Compile EJS.
 export const onEjs = () => {
   return src(['ejs/**/*.ejs', '!ejs/**/_*.ejs'])
+    .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
     .pipe(ejs())
     .pipe(rename({ extname: '.html' }))
     .pipe(dest('.'))
