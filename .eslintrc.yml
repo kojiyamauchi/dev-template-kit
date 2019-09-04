@@ -55,6 +55,7 @@ rules:
   "@typescript-eslint/no-non-null-assertion": off
   "@typescript-eslint/interface-name-prefix": off
   "@typescript-eslint/no-namespace": off
+  "@typescript-eslint/member-delimiter-style": off
   "max-classes-per-file":
     - error
     - 2
