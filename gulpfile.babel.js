@@ -160,6 +160,18 @@ export const onDelete = cb => {
     ], cb)
 }
 
+// For When Building Manually, Delete Compiled Files Before Building. ( When Switching Working Branches. )
+export const onClean = cd => {
+  return del(
+    [
+      '**/*.html',
+      'css/**.min.css',
+      'js/**.min.js',
+      '!node_modules/**/*.html'
+    ]
+  )
+}
+
 // Compression Images.
 export const onImgmin = () => {
   return src(`${inImages}(.jpg|.jpeg|.png|.gif)`, { since: lastRun(onImgmin) })
@@ -216,7 +228,7 @@ export const onDeploy = () => {
 export const onEcma = series(onWebpack, onJsmin, onDelete)
 export const onStyles = series(onSass, onCssmin, onDelete)
 export const onTemplates = series(onEjs, onCacheBusting, onDelete)
-export const onBuild = parallel(onEcma, onStyles, onTemplates)
+export const onBuild = series(onClean, parallel(onEcma, onStyles, onTemplates))
 
 // Development.
 exports.default = parallel(onBrowserSync, () => {
