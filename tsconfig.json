@@ -27,13 +27,12 @@
         "./*"
       ]
     },
-    "outDir": "./js/"
+    "outDir": "js"
   },
   "include": [
     "base/**/*",
     "apps/**/*",
-    "types/**/*",
-    "src/**/*"
+    "types/**/*"
   ],
   "exclude": [
     "node_modules"
