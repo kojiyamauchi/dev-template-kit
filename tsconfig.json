@@ -7,6 +7,7 @@
     "noFallthroughCasesInSwitch": true,
     "noEmitOnError": true,
     "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
     "newLine": "LF",
     "declaration": true,
     "sourceMap": true,
