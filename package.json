@@ -216,6 +216,6 @@
     "build": "webpack --config webpack/webpack.pro.babel.js --mode production",
     "gulp": "gulp",
     "check-pkg": "ncu",
-    "update-pkg": "ncu '/^(?!(styled-)).*$/' -a"
+    "update-pkg": "ncu '/^(?!(styled-)).*$/' -u"
   }
 }
