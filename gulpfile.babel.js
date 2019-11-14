@@ -1,5 +1,18 @@
 'use strict'
 
+// Switches Each Mode.
+const switches = {
+  production: false,
+  ecma: true,
+  styles: true,
+  templates: true,
+  templatemin: true,
+  delete: false,
+  imgmin: false,
+  rename: false,
+  deploy: false
+}
+
 // Import Gulp API.
 import { src, dest, lastRun, series, parallel, watch } from 'gulp'
 
@@ -18,8 +31,8 @@ import gulpIf from 'gulp-if'
 // For Webpack & JS.
 import webpack from 'webpack'
 import webpackStream from 'webpack-stream'
-import webpackGulp from './webpack/webpack.gulp.babel'
-import terser from 'gulp-terser'
+import webpackDev from './webpack/webpack.gulp.dev.babel'
+import webpackPro from './webpack/webpack.gulp.pro.babel'
 // For Sass & CSS.
 import sass from 'gulp-sass'
 import sassGlob from 'gulp-sass-glob'
@@ -64,21 +77,22 @@ const cacheBusting = [
   '!node_modules/**/*.html'
 ]
 
-// Compile JS by webpack.
-export const onWebpack = () => {
-  return webpackStream(webpackGulp, webpack)
-  .on('error', function () {
-    this.emit('end')
-  })
-  .pipe(dest('js/'))
+// Development Mode of ECMA by Webpack.
+export const onWebpackDev = () => {
+  return webpackStream(webpackDev, webpack)
+    .on('error', function() {
+      this.emit('end')
+    })
+    .pipe(dest('js/'))
 }
 
-// Minify JS.
-export const onJsmin = () => {
-  return src(['js/*.js', '!js/*.min.js'])
-  .pipe(terser())
-  .pipe(rename({ suffix: '.min' }))
-  .pipe(dest('js/'))
+// Production Mode of ECMA by Webpack.
+export const onWebpackPro = () => {
+  return webpackStream(webpackPro, webpack)
+    .on('error', function() {
+      this.emit('end')
+    })
+    .pipe(dest('js/'))
 }
 
 // Compile sass.
@@ -157,6 +171,7 @@ export const onDelete = cb => {
       '!js/*.min.js',
       '!css/*.min.css',
       '!ejs/**/*',
+      '!node_modules/**/*'
     ], cb)
 }
 
@@ -223,37 +238,27 @@ export const onDeploy = () => {
   .pipe(ftpConnect.dest('/'))
 }
 
-// Build.
+// Build　Manually.
 // Logic / Style / Template / All.
-export const onEcma = series(onWebpack, onJsmin, onDelete)
-export const onStyles = series(onSass, onCssmin, onDelete)
-export const onTemplates = series(onEjs, onCacheBusting, onDelete)
+export const onEcma = switches.production ? onWebpackPro : onWebpackDev
+export const onStyles = series(onSass, onCssmin)
+export const onTemplates = series(onEjs, onCacheBusting)
 export const onBuild = series(onClean, parallel(onEcma, onStyles, onTemplates))
 
-// Development.
+// When Developing, Build Automatically.
 exports.default = parallel(onBrowserSync, () => {
   if (switches.ecma) watch('base/**/*', onEcma)
   if (switches.styles) watch('sass/**/*.scss', onStyles)
   if (switches.templates) watch(templatesMonitor, onTemplates)
+  if (switches.delete) watch(['**/*.ejs', '!ejs/**/*'], onDelete)
   if (switches.imgmin) watch(inImages, parallel(onImgmin, onSvgmin))
   if (switches.rename) watch('**/*', onRename)
   let timeID
   watch(cacheBusting).on('change',() => {
     clearTimeout(timeID)
     timeID = setTimeout(() => {
-      if (switches.deploy) onDeploy()
+      if (switches.production && switches.deploy) onDeploy()
       browserSync.reload()
     }, 2000)
   })
 })
-
-// Switches.
-const switches = {
-  ecma: true,
-  styles: true,
-  templates: true,
-  imgmin: false,
-  rename: false,
-  deploy: false,
-  templatemin: true
-}
