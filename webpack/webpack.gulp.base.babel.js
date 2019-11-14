@@ -4,41 +4,54 @@
 
 // Import webpack.
 import webpack from 'webpack'
-
 // Import Node.js 'path' Modules. Using for Setting of Root Dir.
 import path from 'path'
-
 // Import 'glob' Modules.
 import glob from 'glob'
-
+// Type Check Plugin for TypeScript.
+import ForkTsChecker from 'fork-ts-checker-webpack-plugin'
+// Import Hard Source webpack Plugin.
+import HardSourceWebpackPlugin from 'hard-source-webpack-plugin'
 // Import Notify Desktop.
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier'
 
 // Setting Multiple Entry Points for Static Website.
 const baseDir = './base/'
 const entries = {}
-glob.sync('*.js', { cwd: baseDir }).map(info => entries[info] = baseDir + info)
+glob.sync('*.js', { cwd: baseDir }).map(info => entries[info.replace('.js','')] = baseDir + info)
 
 // Setting Start.
 module.exports = {
-  // Setting webpack Mode.
-  mode: 'development',
-
-  // When Using Gulp, Development Mode is Disabled?
-  // Just to be Sure, Setting the Cache.
-  cache: true,
-
   // JS Core File Entry Point.
   entry: entries,
 
-  // JS Core File Dist Point.
+  // JS Core File Output Point.
   output: {
-    path: `${__dirname}/js/`,
-    filename: '[name]'
+    // 'path' Key is Not Used. ( Setting of Output Dir is Managed by gulp.babel.js )
+    filename: '[name].min.js'
   },
 
-  // Core Settings is Below.
-  // Setting Rules According to JS Library and Framework.
+  // For Bundle Common Import Modules & Polyfill.
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        polyfill: {
+          test: /node_modules\/core-js\//,
+          name: 'common.polyfill.bundle',
+          chunks: 'initial',
+          enforce: true
+        },
+        modules: {
+          test: /node_modules\/(?!(core-js)\/).*/,
+          name: 'common.modules.bundle',
+          chunks: 'initial',
+          enforce: true
+        }
+      }
+    }
+  },
+
+  // Core Setting.
   module: {
     rules: [
       // ES Lint.
@@ -48,22 +61,27 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'eslint-loader'
       },
-      // ES Lint End.
-      // ES2015.
+      // ECMA.
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader?cacheDirectory'
+        use: [
+          { loader: 'cache-loader' },
+          { loader: 'thread-loader' },
+          { loader: 'babel-loader?cacheDirectory' }
+        ]
       },
-      // ES2015 End.
       // TypeScript.
-      // Use Loader -> 'ts-loader' or 'awesome-typescript-loader'.
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        loader: ['ts-loader', 'awesome-typescript-loader']
+        use: [
+          { loader: 'cache-loader' },
+          { loader: 'thread-loader' },
+          { loader: 'babel-loader?cacheDirectory' },
+          { loader: 'ts-loader', options: { happyPackMode: true }}
+        ]
       },
-      // TypeScript End.
       // Import Json File.
       {
         type: 'javascript/auto',
@@ -71,20 +89,16 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'json-loader'
       },
-      // Import Json File End.
-
-      // JS Sorce Map.
+      // JS Source Map.
       {
         test: /\.js$/,
         enforce: 'pre',
         loader: 'source-map-loader'
       }
-      // JS Sorce Map End.
     ]
   },
-  // Setting Rules According to JS Library and Framework End.
 
-  // Setting for Import JS Modules.
+  // Setting for Extensions & Path Resolve.
   resolve: {
     // Setting for Cut the File Extension When Import JS Module.
     extensions: ['.js', '.ts', '.json'],
@@ -94,14 +108,17 @@ module.exports = {
       '@': path.resolve(__dirname, './..')
     }
   },
-  // Setting for Import JS Modules End.
 
   // Setting for Plugins.
   plugins: [
+    // use 'happyPackMode' on ts-loader option. (transpileOnly is true)
+    // for that, use this plugin.(for type check)
+    new ForkTsChecker({ checkSyntacticErrors: true }),
+    // For Faster Build.
+    new HardSourceWebpackPlugin(),
     // Notify Desktop When a Compile Error.
     new WebpackBuildNotifierPlugin({ suppressSuccess: 'initial' })
   ],
-  // Setting for Plugins End.
 
   // Setting for Warning on Terminal.
   performance: {
