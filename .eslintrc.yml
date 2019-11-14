@@ -20,7 +20,7 @@ plugins:
 settings:
   # Import webpack Alias Setting, Linting for 'import/no-unresolved'.
   # If Using JavaScript FrameWork or Library. -> webpack/webpack.base.babel.js
-  # If Create Static Website. -> webpack/webpack.gulp.babel.js
+  # If Create Static Website. -> webpack/webpack.gulp.base.babel.js
   "import/resolver":
     webpack:
       config: "webpack/webpack.base.babel.js"
@@ -56,6 +56,7 @@ rules:
   "@typescript-eslint/interface-name-prefix": off
   "@typescript-eslint/no-namespace": off
   "@typescript-eslint/member-delimiter-style": off
+  "@typescript-eslint/no-empty-function": off
   "max-classes-per-file":
     - error
     - 2
@@ -72,3 +73,4 @@ rules:
     - exceptAfterSingleLine: true
   "no-console": off
   "unicorn/number-literal-case": off
+  # "@typescript-eslint/ban-ts-ignore": off
