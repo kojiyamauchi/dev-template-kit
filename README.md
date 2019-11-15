@@ -10,8 +10,8 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 - Install All Packages.
   - -> `yarn install`
 - When Creating Static Website.
-  - -> `gulp` or `yarn gulp`
-- When Creating Web Application, Using JavaScript Framework or Library.
+  - -> `gulp`
+- When Creating Simple Web Application.
   - Development -> `yarn dev`
   - Build -> `yarn build`
 
@@ -19,9 +19,7 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 
 - Check npm Package Update Version. ( ncu )
   - -> `yarn check-pkg`
-- Update npm Package on package.json. ( ncu )
+- Update npm Package on package.json. ( ncu -u )
   - -> `yarn update-pkg`
-- Delete yarn.lock & node_modules.
-  - -> `rm yarn.lock` & `rm -rf node_modules`
-- Re:Install All Packages.
-  - -> `yarn install`
+- Re:Install All Packages. ( rm yarn.lock && rm -rf node_modules && yarn install )
+  - -> `yarn re-install`
