@@ -27,7 +27,7 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "outDir": "./js",
-    "paths": { "@/*": [ "./*" ] },
+    "paths": { "@/*": [ "static -> ./* || web app -> ./apps/*" ] }
 
   },
   "include": [
