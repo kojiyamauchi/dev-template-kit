@@ -2,29 +2,25 @@
    Setting webpack for Base.
 */
 
-// Import webpack.
 import webpack from 'webpack'
-
-// Import Node.js 'path' Modules. Using for Setting of Root Dir.
 import path from 'path'
-
-// Import Hard Source webpack Plugin.
+// Type Check Plugin for TypeScript.
+import ForkTsChecker from 'fork-ts-checker-webpack-plugin'
+// Import Faster Build Plugin.
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin'
+// Import Notify Desktop Plugin.
+import WebpackBuildNotifierPlugin from 'webpack-build-notifier'
 
-// Setting Start.
+// Setting.
 module.exports = {
-  // JS Core File Entry Point.
-  entry: './base/core.js', // If Using React & TypeScript.. => './base/core.tsx', Else If Using TypeScript Only.. => './base/core.ts'.
-
-  // JS Core File Dist Point.
+  // Entry Point.
+  entry: './base/core.tsx',
+  // Output Point.
   output: {
-    path: `${__dirname}/../`, // Setting of Output Target on Root Dir, When Using npm Script.
-    filename: path.join('js', 'core.min.js') // Setting of Output Target Dir & Output File Name, When Using npm Script.
+    path: `${__dirname}/../`,
+    filename: path.join('js', 'core.min.js')
     // publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
   },
-
-  // Core Settings is Below.
-  // Setting Rules According to JS Library and Framework.
   module: {
     rules: [
       // ES Lint.
@@ -34,43 +30,47 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'eslint-loader'
       },
-      // ES Lint End.
-      // ES2015 & React.
+      // ECMA & React.
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader?cacheDirectory'
+        use: [
+          { loader: 'cache-loader' },
+          { loader: 'thread-loader' },
+          { loader: 'babel-loader?cacheDirectory' }
+        ]
       },
-      // ES2015 & React End.
-      // TypeScript & React.
-      // Use Loader -> 'ts-loader' or 'awesome-typescript-loader'.
+      // TS & TSX.
       {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
-        loader: ['ts-loader', 'awesome-typescript-loader']
+        use: [
+          { loader: 'cache-loader' },
+          { loader: 'thread-loader' },
+          { loader: 'babel-loader?cacheDirectory' },
+          { loader: 'ts-loader', options: { happyPackMode: true }}
+        ]
       },
-      // TypeScript & React End.
-      // stylelint for Styled-Components.
+      // Styled Components.
       {
-        test: /\.(js|jsx|tsx)$/,
+        test: /\.(js|ts)$/,
         exclude: /node_modules/,
-        loader: 'stylelint-custom-processor-loader',
-        options: {
-          emitWarning: true
-        }
+        use: [
+          { loader: 'cache-loader' },
+          { loader: 'thread-loader' },
+          { loader: 'stylelint-custom-processor-loader', options: { emitWarning: true } }
+        ]
       },
-      // stylelint for Styled-Components. End.
-      // Using Images. (Except SVG.)
+      // For Images.
       {
         test: /\.(jpg|png|gif)$/,
         loaders: 'url-loader',
         options: {
           limit: 10000,
-          outputPath: 'materials/images' // Setting Images File Output Dir.
+          outputPath: 'materials/images'
         }
       },
-      // Using Images. (Except SVG.) End.
-      // Using SVG.
+      // For SVG.
       {
         test: /\.svg$/,
         use: [
@@ -91,14 +91,12 @@ module.exports = {
           }
         ]
       },
-      // Using SVG End.
-      // Using Inline SVG.
+      // For Inline SVG.
       {
         test: /\.inline.svg$/,
         loader: 'svg-inline-loader'
       },
-      // Using Inline SVG End.
-      // Using Icons.
+      // For Icon.
       {
         test: /\.ico$/,
         loaders: 'url-loader',
@@ -107,8 +105,7 @@ module.exports = {
           outputPath: 'materials/icons' // Setting Icons File Output Dir.
         }
       },
-      // Using Icons End.
-      // Using Fonts.
+      // For Fonts.
       {
         test: /\.(woff|woff2|eot|ttf)$/,
         loaders: 'url-loader',
@@ -117,8 +114,7 @@ module.exports = {
           outputPath: 'materials/fonts' // Setting Fonts File Output Dir.
         }
       },
-      // Using Fonts End.
-      // Using PDF.
+      // For PDF.
       {
         test: /\.pdf$/,
         loaders: 'url-loader',
@@ -127,30 +123,23 @@ module.exports = {
           outputPath: 'materials/pdf' // Setting PDF File Output Dir.
         }
       },
-      // Using PDF End.
-      // Import Json File.
+      // For JSON (Into Bundle File).
       {
         type: 'javascript/auto',
         test: /\.json$/,
         exclude: /node_modules/,
         loader: 'json-loader'
       },
-      // Import Json File End.
-
-      // JS Sorce Map.
+      // Source Map.
       {
         test: /\.js$/,
         enforce: 'pre',
         loader: 'source-map-loader'
       }
-      // JS Sorce Map End.
     ]
   },
-  // Setting Rules According to JS Library and Framework End.
 
-  // Setting for Import JS Modules.
   resolve: {
-    // Setting for Cut the File Extension When Import JS Module.
     extensions: [
       '.js',
       '.ts',
@@ -163,24 +152,20 @@ module.exports = {
       '.gif'
     ],
 
-    // Setting for Project Root Dir, When Import JS Modules.
     alias: {
-      '@': path.resolve(__dirname, './../apps') // When Creating with React.js
-      // '@': path.resolve(__dirname, './..') // When Not Creating with React.js
+      '@': path.resolve(__dirname, './../apps')
     }
   },
-  // Setting for Import JS Modules End.
 
-  // Setting for Plugins.
   plugins: [
-    /*
-    Read Issue Below on GitHub, Maybe Supported by Ver.5
-    https://github.com/webpack/webpack/issues/8052
-    new HardSourceWebpackPlugin() // Faster Build Plugins. Compile? Build? Which?
-    */
+    // using 'happyPackMode' on ts-loader option. (transpileOnly is true)
+    // for that, use this plugin.(for type check)
+    new ForkTsChecker({ checkSyntacticErrors: true }),
+    // For Faster Build.
+    new HardSourceWebpackPlugin(),
+    // Notify Desktop When a Compile Error.
+    new WebpackBuildNotifierPlugin({ suppressSuccess: 'initial' })
   ],
-  // Setting for Plugins End.
-
   // Setting for Warning on Terminal.
   performance: {
     /* An entrypoint represents all assets that would be utilized during initial load time for a specific entry.
