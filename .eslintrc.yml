@@ -14,9 +14,10 @@ parserOptions:
     jsx: true
   extraFileExtensions: ".vue"
 plugins:
-  - "@typescript-eslint"
+  - react
   - prettier
   - import
+  - "@typescript-eslint"
 settings:
   # Import webpack Alias Setting, Linting for 'import/no-unresolved'.
   # If Using JavaScript FrameWork or Library. -> webpack/webpack.base.babel.js
@@ -24,6 +25,8 @@ settings:
   "import/resolver":
     webpack:
       config: "webpack/webpack.base.babel.js"
+  react:
+    version: "detect"
   node:
     tryExtensions:
       - ".js"
@@ -38,8 +41,9 @@ settings:
 # Set Linting Rules Below.
 extends:
   - "standard"
-  - "plugin:@typescript-eslint/recommended"
+  - "plugin:react/recommended"
   - "plugin:prettier/recommended"
+  - "plugin:@typescript-eslint/recommended"
 rules:
   "prettier/prettier":
     - error
