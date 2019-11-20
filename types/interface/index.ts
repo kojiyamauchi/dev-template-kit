@@ -1,3 +1,3 @@
-export interface AddInterFaceName {
-  // Pending.
+interface AddInterfaceName {
+  // Add Member.
 }

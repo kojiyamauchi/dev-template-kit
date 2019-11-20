@@ -1,3 +1,3 @@
-export enum AddEnumName {
-  // Pending.
+enum AddEnumName {
+  // Add Member.
 }
