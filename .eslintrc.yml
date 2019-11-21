@@ -77,4 +77,7 @@ rules:
     - exceptAfterSingleLine: true
   "no-console": off
   "unicorn/number-literal-case": off
+  "spaced-comment":
+    - error
+    - always
   # "@typescript-eslint/ban-ts-ignore": off
