@@ -31,4 +31,12 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 - Static Website.  
   - [TypeScript Templates.](https://github.com/kojiyamauchi/typescript-templates)
   - [Components Base Sass Template Kit.](https://github.com/kojiyamauchi/component-base-sass-template-kit)
-  - [EJS Template.](https://github.com/kojiyamauchi/ejs-template-kit)
+  - [EJS Template.](https://github.com/kojiyamauchi/ejs-template-kit)  
+
+ー  
+
+### TODO Memo.
+- @typescript-eslint ver.2 Parse Doesn't Work. (on Terminal && on VSCode)
+  - <https://github.com/typescript-eslint/typescript-eslint/releases/tag/v2.0.0>  
+
+🏄‍
