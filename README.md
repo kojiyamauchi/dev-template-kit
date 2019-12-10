@@ -35,7 +35,15 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 
 ー  
 
-### TODO Memo.
+## Memo.
+- If HardSourceWebpackPlugin's Warning Displayed on Terminal.  
+`[hardsource:***] Could not freeze...`  
+  - -> Delete HardSourceWebpackPlugin's Cache Dir.  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`rm -rf node_modules/.cache/hard-source/`  
+
+ー
+
+## TODO.
 - @typescript-eslint ver.2 Parse Doesn't Work. (on Terminal && on VSCode)
   - <https://github.com/typescript-eslint/typescript-eslint/releases/tag/v2.0.0>  
 
