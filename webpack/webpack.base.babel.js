@@ -153,7 +153,8 @@ module.exports = {
     ],
 
     alias: {
-      '@': path.resolve(__dirname, './../apps')
+      '@': path.resolve(__dirname, './../apps'),
+      'react-dom': '@hot-loader/react-dom'
     }
   },
 
