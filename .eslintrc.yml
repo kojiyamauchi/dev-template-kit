@@ -80,4 +80,5 @@ rules:
   "spaced-comment":
     - error
     - always
+  "react/prop-types": off
   # "@typescript-eslint/ban-ts-ignore": off
