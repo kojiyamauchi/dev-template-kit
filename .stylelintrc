@@ -8,7 +8,7 @@
   "rules": {
     "indentation": [ 2, { baseIndentLevel: 1 } ],
     "max-empty-lines": 2,
-    "rule-empty-line-before": ["always", { except: [ "inside-block" ] }],
+    "rule-empty-line-before": ["always"],
     "selector-list-comma-newline-after": "always-multi-line",
     "block-closing-brace-space-before": "never-single-line",
     "block-no-empty": null,
