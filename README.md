@@ -44,7 +44,10 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 ー
 
 ## TODO.
-- @typescript-eslint ver.2 Parse Doesn't Work. (on Terminal && on VSCode)
+- @typescript-eslint ver.2 Parse Doesn't Work. (on Terminal && on VSCode && Don't Want to Add Extra Config Files.)
   - <https://github.com/typescript-eslint/typescript-eslint/releases/tag/v2.0.0>  
+- @types/styled-components When Install Latest Version, @types/react-native's Installed Together.  
+  Temporary -> Fix @types/styled-components's Version 4.1.8 && `rm -rf node_modules/@types/react-native`
+  - <https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33311>  
 
 🏄‍
