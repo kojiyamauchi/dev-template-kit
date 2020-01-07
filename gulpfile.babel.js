@@ -220,7 +220,8 @@ export const onBrowserSync = () => {
     proxy: 'test.dev or localhost:8080'
     */
     // Setting Root.
-    server: { baseDir: '.', index: 'index.html' }
+    server: { baseDir: '.', index: 'index.html' },
+    startPath: 'site-map.html'
   })
 }
 
