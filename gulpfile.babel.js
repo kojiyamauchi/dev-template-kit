@@ -10,7 +10,8 @@ const switches = {
   delete: false,
   imgmin: false,
   rename: false,
-  deploy: false
+  deploy: false,
+  siteMap: false
 }
 
 // Import Gulp API.
@@ -221,7 +222,7 @@ export const onBrowserSync = () => {
     */
     // Setting Root.
     server: { baseDir: '.', index: 'index.html' },
-    startPath: 'site-map.html'
+    startPath: switches.siteMap ? 'site-map.html' : null
   })
 }
 
