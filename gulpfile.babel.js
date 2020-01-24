@@ -2,7 +2,6 @@
 
 // Switches Each Mode.
 const switches = {
-  production: false,
   ecma: true,
   styles: true,
   templates: true,
@@ -10,8 +9,10 @@ const switches = {
   delete: false,
   imgmin: false,
   rename: false,
+  copy: false,
   deploy: false,
-  siteMap: false
+  siteMap: false,
+  production: false
 }
 
 // Import Gulp API.
@@ -211,6 +212,11 @@ export const onRename = () => {
   .pipe(dest('.'))
 }
 
+// When File Copy / Move.
+export const onCopy = () => {
+  return src('Add Source Dir/').pipe('Add Destination Dir/')
+}
+
 // Launch Local Browser.
 export const onBrowserSync = () => {
   return browserSync({
@@ -259,6 +265,7 @@ exports.default = parallel(onBrowserSync, () => {
   watch(cacheBusting).on('change',() => {
     clearTimeout(timeID)
     timeID = setTimeout(() => {
+      if (switches.copy) onCopy()
       if (switches.production && switches.deploy) onDeploy()
       browserSync.reload()
     }, 2000)
