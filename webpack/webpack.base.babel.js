@@ -73,6 +73,13 @@ module.exports = {
       // For SVG.
       {
         test: /\.svg$/,
+        use: {
+          loader: 'svg-url-loader'
+        }
+      },
+      // For JSX SVG.
+      {
+        test: /\.jsx.svg$/,
         use: [
           'babel-loader',
           {
