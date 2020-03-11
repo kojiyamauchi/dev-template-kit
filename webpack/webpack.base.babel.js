@@ -63,18 +63,11 @@ module.exports = {
       },
       // For Images.
       {
-        test: /\.(jpg|png|gif)$/,
+        test: /\.(jpg|png|gif|svg)$/,
         loaders: 'url-loader',
         options: {
           limit: 10000,
           outputPath: 'materials/images'
-        }
-      },
-      // For SVG.
-      {
-        test: /\.svg$/,
-        use: {
-          loader: 'svg-url-loader'
         }
       },
       // For JSX SVG.
