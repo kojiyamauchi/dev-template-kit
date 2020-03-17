@@ -18,6 +18,7 @@ import WebpackBuildNotifierPlugin from 'webpack-build-notifier'
 // Setting Multiple Entry Points for Static Website.
 const baseDir = './base/'
 const entries = {}
+const splitChunksIgnore = []
 glob.sync('*.js', { cwd: baseDir }).map(info => entries[info.replace('.js','')] = baseDir + info)
 
 // Setting Start.
@@ -38,14 +39,14 @@ module.exports = {
         polyfill: {
           test: /node_modules\/core-js\//,
           name: 'common.polyfill.bundle',
-          chunks: 'initial',
-          enforce: true
+          enforce: true,
+          chunks (chunk) { return !splitChunksIgnore.includes(chunk.name) }
         },
         modules: {
           test: /node_modules\/(?!(core-js)\/).*/,
           name: 'common.modules.bundle',
-          chunks: 'initial',
-          enforce: true
+          enforce: true,
+          chunks (chunk) { return !splitChunksIgnore.includes(chunk.name) }
         }
       }
     }
