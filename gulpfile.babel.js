@@ -251,7 +251,7 @@ export const onDeploy = () => {
 export const onEcma = switches.production ? onWebpackPro : onWebpackDev
 export const onStyles = series(onSass, onCssmin)
 export const onTemplates = series(onEjs, onCacheBusting)
-export const onBuild = series(onClean, parallel(onEcma, onStyles, onTemplates))
+export const onBuild = series(onClean, parallel(onWebpackPro, onStyles, onTemplates))
 
 // When Developing, Build Automatically.
 exports.default = parallel(onBrowserSync, () => {
