@@ -221,6 +221,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --hot --config webpack/webpack.dev.babel.js --mode development",
     "build": "webpack --config webpack/webpack.pro.babel.js --mode production",
+    "remove-fasters-cache": "rm -rf node_modules/.cache/hard-source/",
     "check-pkg": "ncu",
     "update-pkg": "ncu '/^(?!(@types/styled-components|@typescript-eslint)).*$/' -u",
     "re-install": "rm yarn.lock && rm -rf node_modules && yarn install"
