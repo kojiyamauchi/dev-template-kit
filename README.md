@@ -16,6 +16,10 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 
 ー
 
+- If HardSourceWebpackPlugin's Warning Displayed on Terminal. ( Plugins for Build Faster. )  
+`[hardsource:***] Could not freeze...`  
+Delete HardSourceWebpackPlugin's Cache Dir.  
+  - -> `yarn remove-fasters-cache`
 - Check npm Package Update Version. ( ncu )
   - -> `yarn check-pkg`
 - Update npm Package on package.json. ( ncu -u )
@@ -32,14 +36,6 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
   - [TypeScript Templates.](https://github.com/kojiyamauchi/typescript-templates)
   - [Components Base Sass Template Kit.](https://github.com/kojiyamauchi/component-base-sass-template-kit)
   - [EJS Template.](https://github.com/kojiyamauchi/ejs-template-kit)  
-
-ー  
-
-## Memo.
-- If HardSourceWebpackPlugin's Warning Displayed on Terminal.  
-`[hardsource:***] Could not freeze...`  
-  - -> Delete HardSourceWebpackPlugin's Cache Dir.  
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`rm -rf node_modules/.cache/hard-source/`  
 
 ー
 
