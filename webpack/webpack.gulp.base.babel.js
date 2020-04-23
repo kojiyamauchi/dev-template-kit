@@ -19,7 +19,9 @@ import WebpackBuildNotifierPlugin from 'webpack-build-notifier'
 const baseDir = './base/'
 const entries = {}
 const splitChunksIgnore = []
-glob.sync('*.js', { cwd: baseDir }).map(info => entries[info.replace('.js','')] = baseDir + info)
+const entryPointIgnore = []
+glob.sync('*.js', { cwd: baseDir }).map((info) => (entries[info.replace('.js', '')] = baseDir + info))
+entryPointIgnore.map((info) => delete entries[info])
 
 // Setting Start.
 module.exports = {
