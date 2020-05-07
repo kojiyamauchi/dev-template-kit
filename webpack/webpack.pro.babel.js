@@ -5,10 +5,19 @@
 import webpack from 'webpack'
 import webpackMerge from 'webpack-merge'
 import webpackBase from './webpack.base.babel'
-// For Minify Code.
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
-// For Keep Keep License Comment Out on Minify File.
 import licenseInfoWebpackPlugin from 'license-info-webpack-plugin'
+
+const generateRedirect = process.env['GITHUB_ACTIONS']
+  ? [
+      new HtmlWebpackPlugin({
+        filename: '404.html',
+        title: '404, Launch Redirect.',
+        meta: [{ viewport: 'width=device-width, initial-scale=1' }, { 'http-equiv': 'refresh', content: `0;URL=${process.env['ENDPOINT_REDIRECT']}` }]
+      })
+    ]
+  : []
 
 export default webpackMerge(webpackBase, {
   plugins: [
@@ -17,7 +26,9 @@ export default webpackMerge(webpackBase, {
     /* Even when it is already sufficiently compressed,
     the code can be analyzed in detail and the parts
     that are likely to be commonly compressed are compressed more positively */
-    new webpack.optimize.AggressiveMergingPlugin()
+    new webpack.optimize.AggressiveMergingPlugin(),
+    // When Build & Deploy on GitHub Actions, Generate 404.html
+    ...generateRedirect
   ],
   // Advanced Setting for Plugins.
   optimization: {

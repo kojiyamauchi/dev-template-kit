@@ -4,20 +4,18 @@
 
 import webpack from 'webpack'
 import path from 'path'
-// Type Check Plugin for TypeScript.
 import ForkTsChecker from 'fork-ts-checker-webpack-plugin'
-// Import Faster Build Plugin.
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin'
-// Import Notify Desktop Plugin.
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 
 // Setting.
 module.exports = {
   // Entry Point.
-  entry: './base/core.tsx',
+  entry: './resource/base/core.tsx',
   // Output Point.
   output: {
-    path: `${__dirname}/../`,
+    path: path.resolve(__dirname, '../delivery/'),
     filename: path.join('js', 'core.min.js')
     // publicPath: '/' // Setting Root of Top Dir. Unnecessary Maybe...
   },
@@ -34,11 +32,7 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: [
-          { loader: 'cache-loader' },
-          { loader: 'thread-loader' },
-          { loader: 'babel-loader?cacheDirectory' }
-        ]
+        use: [{ loader: 'cache-loader' }, { loader: 'thread-loader' }, { loader: 'babel-loader?cacheDirectory' }]
       },
       // TS & TSX.
       {
@@ -48,18 +42,14 @@ module.exports = {
           { loader: 'cache-loader' },
           { loader: 'thread-loader' },
           { loader: 'babel-loader?cacheDirectory' },
-          { loader: 'ts-loader', options: { happyPackMode: true }}
+          { loader: 'ts-loader', options: { happyPackMode: true } }
         ]
       },
       // Styled Components.
       {
         test: /\.(js|ts)$/,
         exclude: /node_modules/,
-        use: [
-          { loader: 'cache-loader' },
-          { loader: 'thread-loader' },
-          { loader: 'stylelint-custom-processor-loader', options: { emitWarning: true } }
-        ]
+        use: [{ loader: 'cache-loader' }, { loader: 'thread-loader' }, { loader: 'stylelint-custom-processor-loader', options: { emitWarning: true } }]
       },
       // For Images.
       {
@@ -140,20 +130,10 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [
-      '.js',
-      '.ts',
-      '.jsx',
-      '.tsx',
-      '.json',
-      '.svg',
-      '.jpg',
-      '.png',
-      '.gif'
-    ],
+    extensions: ['.js', '.ts', '.jsx', '.tsx', '.json', '.svg', '.jpg', '.png', '.gif'],
 
     alias: {
-      '@': path.resolve(__dirname, './../apps'),
+      '@': path.resolve(__dirname, '../resource/apps/'),
       'react-dom': '@hot-loader/react-dom'
     }
   },
@@ -165,7 +145,19 @@ module.exports = {
     // For Faster Build.
     new HardSourceWebpackPlugin(),
     // Notify Desktop When a Compile Error.
-    new WebpackBuildNotifierPlugin({ suppressSuccess: 'initial' })
+    new WebpackBuildNotifierPlugin({ suppressSuccess: 'initial' }),
+    // Generate HTML for Endpoint.
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      title: 'React Simple Starter.',
+      meta: [
+        { charset: 'UTF-8' },
+        { 'http-equiv': 'content-language', content: 'ja' },
+        { 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' },
+        { viewport: 'width=device-width, initial-scale=1' }
+      ],
+      templateContent: ({ htmlWebpackPlugin }) => `<html lang="ja"><title>${htmlWebpackPlugin.options.title}</title><body><div id="app"></div></body></html>`
+    })
   ],
   // Setting for Warning on Terminal.
   performance: {

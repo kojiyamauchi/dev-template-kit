@@ -2,21 +2,15 @@
    Setting webpack for gulp.
 */
 
-// Import webpack.
 import webpack from 'webpack'
-// Import Node.js 'path' Modules. Using for Setting of Root Dir.
 import path from 'path'
-// Import 'glob' Modules.
 import glob from 'glob'
-// Type Check Plugin for TypeScript.
 import ForkTsChecker from 'fork-ts-checker-webpack-plugin'
-// Import Hard Source webpack Plugin.
 import HardSourceWebpackPlugin from 'hard-source-webpack-plugin'
-// Import Notify Desktop.
 import WebpackBuildNotifierPlugin from 'webpack-build-notifier'
 
 // Setting Multiple Entry Points for Static Website.
-const baseDir = './base/'
+const baseDir = './resource/base/'
 const entries = {}
 const splitChunksIgnore = []
 const entryPointIgnore = []
@@ -42,13 +36,17 @@ module.exports = {
           test: /node_modules\/core-js\//,
           name: 'common.polyfill.bundle',
           enforce: true,
-          chunks (chunk) { return !splitChunksIgnore.includes(chunk.name) }
+          chunks(chunk) {
+            return !splitChunksIgnore.includes(chunk.name)
+          }
         },
         modules: {
           test: /node_modules\/(?!(core-js)\/).*/,
           name: 'common.modules.bundle',
           enforce: true,
-          chunks (chunk) { return !splitChunksIgnore.includes(chunk.name) }
+          chunks(chunk) {
+            return !splitChunksIgnore.includes(chunk.name)
+          }
         }
       }
     }
@@ -68,11 +66,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [
-          { loader: 'cache-loader' },
-          { loader: 'thread-loader' },
-          { loader: 'babel-loader?cacheDirectory' }
-        ]
+        use: [{ loader: 'cache-loader' }, { loader: 'thread-loader' }, { loader: 'babel-loader?cacheDirectory' }]
       },
       // TypeScript.
       {
@@ -82,7 +76,7 @@ module.exports = {
           { loader: 'cache-loader' },
           { loader: 'thread-loader' },
           { loader: 'babel-loader?cacheDirectory' },
-          { loader: 'ts-loader', options: { happyPackMode: true }}
+          { loader: 'ts-loader', options: { happyPackMode: true } }
         ]
       },
       // Import Json File.
@@ -108,7 +102,7 @@ module.exports = {
 
     // Setting for Project Root Dir, When Import JS Modules.
     alias: {
-      '@': path.resolve(__dirname, './..')
+      '@': path.resolve(__dirname, '../resource/base/')
     }
   },
 
