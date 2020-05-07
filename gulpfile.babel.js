@@ -2,17 +2,16 @@
 
 // Switches Each Mode.
 const switches = {
+  production: false,
+  siteMap: false,
   ecma: true,
   styles: true,
   templates: true,
   templatemin: true,
-  delete: false,
-  imgmin: false,
-  rename: false,
+  compressionImages: true,
+  delete: true,
   copy: false,
-  deploy: false,
-  siteMap: false,
-  production: false
+  rename: false
 }
 
 // Import Gulp API.
@@ -49,87 +48,74 @@ import ejs from 'gulp-ejs'
 import templateMinify from 'gulp-htmlmin'
 import templatePrettify from 'gulp-prettify'
 // For Images.
-import imgMin from 'gulp-imagemin'
-import pngMin from 'imagemin-pngquant'
-import svgMin from 'gulp-svgmin'
+import imagemin from 'gulp-imagemin'
+import mozjpeg from 'imagemin-mozjpeg'
+import pngquant from 'imagemin-pngquant'
 // For Env.
 import browserSync from 'browser-sync'
-import ftp from 'vinyl-ftp'
-import sftp from 'gulp-sftp'
 
 // Settings.
 const postCSSPlugIn = [autoprefixer({ grid: true }), fixFlexBugs, cachebuster()]
-const inImages = 'addImages/*'
-const outImages = 'images/'
-const buildFiles = [
-  '**/*.html',
-  'css/**.min.css',
-  'js/**.min.js',
-  'images/**/*',
-  '!node_modules/**/*.html'
-]
-const templatesMonitor = [
-  'js/**.min.js',
-  'css/**.min.css',
-  'ejs/**/*',
-  'images/**/*'
-]
-const cacheBusting = [
-  '**/*.html',
-  '!node_modules/**/*.html'
-]
+const templatesMonitor = ['./resource/ejs/**/*']
+const templateEntryPointIgnore = []
+const cacheBusting = ['./delivery/**/*.html']
+const styleEntryPointIgnore = []
+const styleGlobIgnore = []
+const inCompressionImages = './resource/images/*'
+const outCompressionImages = './delivery/assets/images/'
+const reloadMonitor = ['./delivery/**/*', './resource/ejs/**/_*.ejs', './resource/sass/**/*.scss']
 
 // Development Mode of ECMA by Webpack.
 export const onWebpackDev = () => {
   return webpackStream(webpackDev, webpack)
-    .on('error', function() {
+    .on('error', function () {
       this.emit('end')
     })
-    .pipe(dest('js/'))
+    .pipe(dest('./delivery/assets/js/'))
 }
 
 // Production Mode of ECMA by Webpack.
 export const onWebpackPro = () => {
   return webpackStream(webpackPro, webpack)
-    .on('error', function() {
+    .on('error', function () {
       this.emit('end')
     })
-    .pipe(dest('js/'))
+    .pipe(dest('./delivery/assets/js/'))
 }
 
 // Compile sass.
 export const onSass = () => {
-  return src('sass/**/*.scss', { sourcemaps: true })
-  .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
-  .pipe(sassGlob())
-  .pipe(sass({ outputStyle: 'expanded' }))
-  .pipe(postCSS(postCSSPlugIn))
-  .pipe(csscomb())
-  .pipe(dest('css/', { sourcemaps: '../maps' }))
+  return src(['./resource/sass/**/*.scss', ...styleEntryPointIgnore], { sourcemaps: true })
+    .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
+    .pipe(sassGlob({ ignorePaths: styleGlobIgnore }))
+    .pipe(sass({ outputStyle: 'expanded' }))
+    .pipe(postCSS(postCSSPlugIn))
+    .pipe(csscomb())
+    .pipe(dest('./resource/css/', { sourcemaps: '../maps' }))
 }
 
 // Minify CSS.
 export const onCssmin = () => {
-  return src(['css/*.css', '!css/*.min.css'])
-  .pipe(cssmin())
-  .pipe(rename({ suffix: '.min' }))
-  .pipe(dest('css/'))
+  return src('./resource/css/**/*.css')
+    .pipe(cssmin())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(dest('./delivery/assets/css/'))
 }
 
 // Compile EJS.
 export const onEjs = () => {
-  return src(['ejs/**/*.ejs', '!ejs/**/_*.ejs'])
+  return src(['./resource/ejs/**/*.ejs', '!./resource/ejs/**/_*.ejs', ...templateEntryPointIgnore])
     .pipe(plumber({ errorHandler: notify.onError('error: <%= error.message %>') }))
     .pipe(ejs())
     .pipe(rename({ extname: '.html' }))
-    .pipe(dest('.'))
+    .pipe(dest('./delivery/'))
 }
 
 // Add Cache Busting to File Path & Minify or Prettify for Template.
 export const onCacheBusting = () => {
   return src(cacheBusting)
     .pipe(
-      replace(/\.(js|css|jpg|jpeg|png|svg|gif)\?rev/g, match => {
+      replace(/\.(js|css|jpg|jpeg|png|svg|gif)\?rev/g, (match) => {
         const revision = () => crypto.randomBytes(8).toString('hex')
         return `${match}=${revision()}`
       })
@@ -137,79 +123,65 @@ export const onCacheBusting = () => {
     .pipe(
       gulpIf(
         switches.templatemin,
-          templateMinify({
-            minifyJS: true,
-            minifyCSS: true,
-            collapseWhitespace : true,
-            removeComments : true
-          }),
-          templatePrettify({
-            indent_size: 2,
-            indent_char: ' ',
-            end_with_newline: false,
-            preserve_newlines: false,
-            unformatted: ['span', 'a', 'img']
-          })
-        )
+        templateMinify({
+          minifyJS: true,
+          minifyCSS: true,
+          collapseWhitespace: true,
+          removeComments: true
+        }),
+        templatePrettify({
+          indent_size: 2,
+          indent_char: ' ',
+          end_with_newline: false,
+          preserve_newlines: false,
+          unformatted: ['span', 'a', 'img']
+        })
       )
-    .pipe(dest('.'))
+    )
+    .pipe(dest('./delivery/'))
 }
 
 // Delete Query String for Cache Busting.
 export const onDeleteCacheBusting = () => {
-  return src('ejs/**/*.ejs')
-  .pipe(replace('?rev', ''))
-  .pipe(dest('ejs/'))
+  return src('./resource/ejs/**/*.ejs').pipe(replace('?rev', '')).pipe(dest('./resource/ejs/'))
+}
+
+const onCompressionImages = () => {
+  return src(inCompressionImages)
+    .pipe(plumber())
+    .pipe(
+      imagemin([
+        pngquant({ quality: [0.65, 0.8], speed: 1 }),
+        mozjpeg({ quality: 80 }),
+        imagemin.gifsicle({ interlaced: false }),
+        imagemin.svgo({ plugins: [{ removeViewBox: true }, { cleanupIDs: false }] })
+      ])
+    )
+    .pipe(dest(outCompressionImages))
 }
 
 // Delete Unnecessary Files.
-export const onDelete = cb => {
-  return del(
-    [
-      '**/.DS_Store',
-      'js/*.js',
-      'css/*.css',
-      '**/*.ejs',
-      '!js/*.min.js',
-      '!css/*.min.css',
-      '!ejs/**/*',
-      '!node_modules/**/*'
-    ], cb)
+export const onDelete = (cb) => {
+  return del(['**/.DS_Store', './delivery/**/*.ejs', '!node_modules/**/*'], cb)
 }
 
 // For When Building Manually, Delete Compiled Files Before Building. ( When Switching Working Branches. )
-export const onClean = cd => {
-  return del(
-    [
-      '**/*.html',
-      'css/**.min.css',
-      'js/**.min.js',
-      '!node_modules/**/*.html'
-    ]
-  )
-}
-
-// Compression Images.
-export const onImgmin = () => {
-  return src(`${inImages}(.jpg|.jpeg|.png|.gif)`, { since: lastRun(onImgmin) })
-  .pipe(plumber())
-  .pipe(imgMin({ use: [ pngMin({ quality: '60-80', speed: 4 }) ]}))
-  .pipe(dest(outImages))
-}
-
-// Compression SVG Files.
-export const onSvgmin = () => {
-  return src(`${inImages}.svg`, { since: lastRun(onSvgmin) })
-  .pipe(plumber())
-  .pipe(svgMin())
-  .pipe(dest(outImages))
+export const onClean = (cd) => {
+  return del([
+    './delivery/assets/js/**/**.min.js',
+    './delivery/assets/css/**',
+    './delivery/**/*.html',
+    './delivery/assets/images/*',
+    './resource/css/**',
+    './resource/map/**'
+  ])
 }
 
 // When Renaming Files.
 export const onRename = () => {
   return src('addFile.name')
-  .pipe(rename({ extname: '.extension' }))
-  .pipe(dest('.'))
+    .pipe(rename({ extname: '.extension' }))
+    .pipe(dest('.'))
 }
 
 // When File Copy / Move.
@@ -227,23 +199,9 @@ export const onBrowserSync = () => {
     proxy: 'test.dev or localhost:8080'
     */
     // Setting Root.
-    server: { baseDir: '.', index: 'index.html' },
+    server: { baseDir: './delivery/', index: 'index.html' },
     startPath: switches.siteMap ? 'site-map.html' : null
   })
-}
-
-// When Deploying by FTP.
-export const onDeploy = () => {
-  const ftpConnect = ftp.create({
-    host: '***',
-    user: '***',
-    password: '***',
-    parallel: 7,
-    log: utility.log
-  })
-  return src(buildFiles, { base: '.', buffer: false })
-  .pipe(ftpConnect.newer('/'))
-  .pipe(ftpConnect.dest('/'))
 }
 
 // Build　Manually.
@@ -251,22 +209,21 @@ export const onDeploy = () => {
 export const onEcma = switches.production ? onWebpackPro : onWebpackDev
 export const onStyles = series(onSass, onCssmin)
 export const onTemplates = series(onEjs, onCacheBusting)
-export const onBuild = series(onClean, parallel(onWebpackPro, onStyles, onTemplates))
+export const onBuild = series(onClean, parallel(onWebpackPro, onStyles, onTemplates, onCompressionImages))
 
 // When Developing, Build Automatically.
 exports.default = parallel(onBrowserSync, () => {
-  if (switches.ecma) watch('base/**/*', onEcma)
-  if (switches.styles) watch('sass/**/*.scss', onStyles)
+  if (switches.ecma) watch(['./resource/base/**/*', './resource/types/**/*'], onEcma)
+  if (switches.styles) watch('./resource/sass/**/*.scss', onStyles)
   if (switches.templates) watch(templatesMonitor, onTemplates)
-  if (switches.delete) watch(['**/*.ejs', '!ejs/**/*'], onDelete)
-  if (switches.imgmin) watch(inImages, parallel(onImgmin, onSvgmin))
+  if (switches.compressionImages) watch(inCompressionImages, onCompressionImages)
+  if (switches.delete) watch(['./resource/**/*.ejs', '!./resource/ejs/**/*'], onDelete)
   if (switches.rename) watch('**/*', onRename)
   let timeID
-  watch(cacheBusting).on('change',() => {
+  watch(reloadMonitor).on('change', () => {
     clearTimeout(timeID)
     timeID = setTimeout(() => {
       if (switches.copy) onCopy()
-      if (switches.production && switches.deploy) onDeploy()
       browserSync.reload()
     }, 2000)
   })
