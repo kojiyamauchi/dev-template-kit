@@ -2,22 +2,12 @@
    Setting webpack for Production.
 */
 
-// Import webpack.
 import webpack from 'webpack'
-
-// Import webpack Merge.
 import webpackMerge from 'webpack-merge'
-
-// Import Terser webpack Plugin.
 import TerserPlugin from 'terser-webpack-plugin'
-
-// Import License Info webpack Plugin.
 import LicenseInfoWebpackPlugin from 'license-info-webpack-plugin'
-
-// Import webpack Base.
 import webpackBase from './webpack.gulp.base.babel'
 
-// Core Setting Below,
 // Base Setting by webpack.gulp.base.babel.js.
 export default webpackMerge(webpackBase, {
   mode: 'production',
