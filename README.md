@@ -75,7 +75,7 @@ Delete HardSourceWebpackPlugin's Cache Dir.
 
 ## 🏄‍ TODO.
 - Styled Components V5's `createGlobalStyle` Does Not Work, When `@import`'s (CSS Import, Google Web Fonts etc.) Written Inside. For That, Use V4's Latest.
- - <https://github.com/styled-components/styled-components/releases/tag/v5.0.0>
+  - <https://github.com/styled-components/styled-components/releases/tag/v5.0.0>
 - @types/styled-components When Install Latest Version, @types/react-native's Installed Together.  
   Temporary -> Add `.yarnclean` Ignoring `@types/react-native`
   - <https://github.com/DefinitelyTyped/DefinitelyTyped/issues/33311>  
