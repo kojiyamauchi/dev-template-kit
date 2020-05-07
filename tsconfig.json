@@ -26,14 +26,15 @@
     "isolatedModules": false,
     "jsx": "preserve",
     "baseUrl": ".",
-    "outDir": "./js",
-    "paths": { "@/*": [ "static -> ./* || web app -> ./apps/*" ] }
+    "outDir": "spa -> ./delivery/js || static -> ./delivery/assets/js",
+    "paths": { "@/*": [ "spa -> ./resource/apps/* || static -> ./resource/base/*" ] }
 
   },
   "include": [
-    "base/**/*",
-    "apps/**/*",
-    "types/**/*"
+    "resource/base/**/*",
+    "resource/apps/**/*",
+    "resource/types/**/*",
+    "resource/tests/**/*"
   ],
   "exclude": [
     "node_modules"
