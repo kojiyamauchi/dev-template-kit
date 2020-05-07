@@ -1,3 +1,0 @@
-enum AddEnumName {
-  // Add Member.
-}

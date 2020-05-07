@@ -1,3 +1,0 @@
-type AddInterfaceName = {
-  // Add Member.
-}
