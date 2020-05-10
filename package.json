@@ -208,22 +208,19 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged --allow-empty"
     }
   },
   "lint-staged": {
-    "!(*.min).{js,ts,jsx,tsx}": [
-      "prettier --write --no-semi --single-quote --trailing-comma none --print-width 160 --jsx-bracket-same-line true",
-      "eslint --fix",
-      "git add"
-    ]
+    "resource/**/!(*.min).{ts,tsx,js}": "eslint　--fix --max-warnings 0",
+    "webpack/*.js": "prettier --write --no-semi --single-quote --trailing-comma none --print-width 160",
+    "gulpfile.babel.js": "prettier --write --no-semi --single-quote --trailing-comma none --print-width 160"
   },
   "jest": {
     "moduleFileExtensions": [
       "ts",
       "tsx",
-      "js",
-      "jsx"
+      "js"
     ],
     "moduleNameMapper": {
       "^@/(.+)": "spa -> <rootDir>/resource/apps/$1 || static -> <rootDir>/resource/base/$1"
@@ -245,7 +242,7 @@
     "setup:static": "rm webpack/webpack.base.babel.js && rm webpack/webpack.dev.babel.js && rm webpack/webpack.pro.babel.js && rm .stylelintrc && rm resource/.gitkeep && rm .yarnclean && rm -rf .git && mkdir resource/images",
     "dev": "webpack-dev-server --inline --hot --config webpack/webpack.dev.babel.js --mode development",
     "build": "webpack --config webpack/webpack.pro.babel.js --mode production",
-    "test": "jest",
+    "jest": "jest --passWithNoTests",
     "remove-fasters-cache": "rm -rf node_modules/.cache/hard-source/",
     "check-pkg": "ncu",
     "update-pkg": "ncu '/^(?!(styled-components|@add-ignore-modules)).*$/' -u",

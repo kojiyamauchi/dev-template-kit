@@ -9,15 +9,16 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
 import licenseInfoWebpackPlugin from 'license-info-webpack-plugin'
 
-const generateRedirect = process.env['GITHUB_ACTIONS']
-  ? [
-      new HtmlWebpackPlugin({
-        filename: '404.html',
-        title: '404, Launch Redirect.',
-        meta: [{ viewport: 'width=device-width, initial-scale=1' }, { 'http-equiv': 'refresh', content: `0;URL=${process.env['ENDPOINT_REDIRECT']}` }]
-      })
-    ]
-  : []
+const generateRedirect =
+  process.env['GITHUB_ACTIONS'] && process.env['ENDPOINT_REDIRECT']
+    ? [
+        new HtmlWebpackPlugin({
+          filename: '404.html',
+          title: '404, Launch Redirect.',
+          meta: [{ viewport: 'width=device-width, initial-scale=1' }, { 'http-equiv': 'refresh', content: `0;URL=${process.env['ENDPOINT_REDIRECT']}` }]
+        })
+      ]
+    : []
 
 export default webpackMerge(webpackBase, {
   plugins: [
