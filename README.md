@@ -37,8 +37,8 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 
 ### 🛹 Build & Deployment. ( Auto Build & Auto Deployment on GitHub )
 - Use GitHub Actions. ( Deployment for Github Pages or Netlify or FTP )  
-  - After Pushing to `develop` Branch, ( Mainly, Merge from Pull Request.)  
-    It Will Auto Build in `delivery` Directory.
+  - When Pull Requests to the `develop` Branch are Closed & Merged,  
+    It Will Auto Build in `delivery` Directory of the Corresponding Branch.
   - Contents of `delivery` Directory are Deployed to `master` Branch.
   - Use GitHub Pages. -> Displayed on GitHub Pages.
   - Use Netlify. -> Deploys via Netlify.
@@ -47,8 +47,11 @@ Creating Optimization of I Think About Various Things Necessary for the Developm
 Choose Which Type of Build & Deployment, Setting in `.github/workflows/delivery.yml`  
 Even When Using SSG with Gatsby.
 
-### 🛹 Unit Test.
-- At Other Than `master`/`develop` Branch, When Put File with Test Code in `resource/tests` Directory & Push, Jest Will Launch. ( Mainly, Push within Pull Requests. )
+### 🛹 Continuous Integration.
+- When Commit & Push to the Pull Request, ( Only Pull Request to `develop` Branch )
+  - When There is a File Containing Test Code in  `resource/tests` Directory, Jest Will Launch.
+  - Statically Analyze Code with ESLint. ( Before That, Husky & Lint Staged also Uses ESLint 💣 )
+  - Test the Build at Every Commit.
 
 ### 🛹 Update Modules.
 - Check to Latest Version of Modules on package.json ( ncu )
