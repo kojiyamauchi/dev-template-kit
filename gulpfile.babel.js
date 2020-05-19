@@ -5,10 +5,12 @@ const switches = {
   production: false,
   siteMap: false,
   ecma: true,
+  json: false,
   styles: true,
   templates: true,
   templatemin: true,
   compressionImages: true,
+  favicon: false,
   delete: true,
   copy: false,
   rename: false
@@ -81,6 +83,11 @@ export const onWebpackPro = () => {
       this.emit('end')
     })
     .pipe(dest('./delivery/assets/js/'))
+}
+
+// When Add JSON.
+export const onJson = () => {
+  return src('./resource/json/*').pipe(dest('./delivery/assets/json/'))
 }
 
 // Compile sass.
@@ -160,6 +167,11 @@ const onCompressionImages = () => {
     .pipe(dest(outCompressionImages))
 }
 
+// When Add Favicon.
+export const onFavicon = () => {
+  return src('./resource/favicons/*').pipe(dest('./delivery/assets/favicons/'))
+}
+
 // Delete Unnecessary Files.
 export const onDelete = (cb) => {
   return del(['**/.DS_Store', './delivery/**/*.ejs', '!node_modules/**/*'], cb)
@@ -167,14 +179,7 @@ export const onDelete = (cb) => {
 
 // For When Building Manually, Delete Compiled Files Before Building. ( When Switching Working Branches. )
 export const onClean = (cd) => {
-  return del([
-    './delivery/assets/js/**/**.min.js',
-    './delivery/assets/css/**',
-    './delivery/**/*.html',
-    './delivery/assets/images/*',
-    './resource/css/**',
-    './resource/map/**'
-  ])
+  return del(['./delivery/**/*.html', './delivery/assets', './resource/css/**', './resource/map/**'])
 }
 
 // When Renaming Files.
@@ -209,14 +214,23 @@ export const onBrowserSync = () => {
 export const onEcma = switches.production ? onWebpackPro : onWebpackDev
 export const onStyles = series(onSass, onCssmin)
 export const onTemplates = series(onEjs, onCacheBusting)
-export const onBuild = series(onClean, parallel(onWebpackPro, onStyles, onTemplates, onCompressionImages))
+export const onBuild = series(
+  onClean,
+  parallel(onWebpackPro, onStyles, onTemplates, onCompressionImages, (doneReport) => {
+    if (switches.json) onJson()
+    if (switches.favicon) onFavicon()
+    doneReport()
+  })
+)
 
 // When Developing, Build Automatically.
 exports.default = parallel(onBrowserSync, () => {
   if (switches.ecma) watch(['./resource/base/**/*', './resource/types/**/*'], onEcma)
+  if (switches.json) watch('./resource/json/*', onJson)
   if (switches.styles) watch('./resource/sass/**/*.scss', onStyles)
   if (switches.templates) watch(templatesMonitor, onTemplates)
   if (switches.compressionImages) watch(inCompressionImages, onCompressionImages)
+  if (switches.favicon) watch('./resource/favicons/*', onFavicon)
   if (switches.delete) watch(['./resource/**/*.ejs', '!./resource/ejs/**/*'], onDelete)
   if (switches.rename) watch('**/*', onRename)
   let timeID
