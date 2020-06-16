@@ -110,7 +110,7 @@ module.exports = {
   plugins: [
     // use 'happyPackMode' on ts-loader option. (transpileOnly is true)
     // for that, use this plugin.(for type check)
-    new ForkTsChecker({ checkSyntacticErrors: true }),
+    new ForkTsChecker(),
     // For Faster Build.
     new HardSourceWebpackPlugin(),
     // Notify Desktop When a Compile Error.
