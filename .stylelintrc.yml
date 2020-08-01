@@ -1,0 +1,23 @@
+syntax: scss
+processors: stylelint-processor-styled-components
+extends:
+  - stylelint-config-standard
+  - stylelint-config-styled-components
+rules:
+  indentation:
+    - 2
+    - baseIndentLevel: 1
+  max-empty-lines: 2
+  rule-empty-line-before:
+    - always
+    - except: first-nested
+  selector-list-comma-newline-after: always-multi-line
+  block-closing-brace-space-before: never-single-line
+  block-no-empty: null
+  number-leading-zero: null
+  property-no-vendor-prefix: null
+  value-keyword-case:
+    - lower
+    - ignoreKeywords: dummyValue
+  selector-pseudo-element-colon-notation: single
+
