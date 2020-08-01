@@ -47,7 +47,8 @@ module.exports = {
       },
       // Styled Components.
       {
-        test: /\.(js|ts)$/,
+        enforce: 'pre',
+        test: /\.(js|jsx|ts|tsx)$/,
         exclude: /node_modules/,
         use: [{ loader: 'cache-loader' }, { loader: 'thread-loader' }, { loader: 'stylelint-custom-processor-loader', options: { emitWarning: true } }]
       },
