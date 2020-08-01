@@ -3,11 +3,11 @@
 */
 
 import webpack from 'webpack'
-import webpackMerge from 'webpack-merge'
+import { merge } from 'webpack-merge'
 import webpackBase from './webpack.gulp.base.babel'
 
 // Base Setting by webpack.gulp.base.babel.js
-export default webpackMerge(webpackBase, {
+export default merge(webpackBase, {
   // Setting webpack Mode.
   mode: 'development',
   cache: true,

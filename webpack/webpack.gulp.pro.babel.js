@@ -3,13 +3,13 @@
 */
 
 import webpack from 'webpack'
-import webpackMerge from 'webpack-merge'
+import { merge } from 'webpack-merge'
 import TerserPlugin from 'terser-webpack-plugin'
 import LicenseInfoWebpackPlugin from 'license-info-webpack-plugin'
 import webpackBase from './webpack.gulp.base.babel'
 
 // Base Setting by webpack.gulp.base.babel.js.
-export default webpackMerge(webpackBase, {
+export default merge(webpackBase, {
   mode: 'production',
   // Setting for Plugins.
   plugins: [

@@ -3,11 +3,11 @@
 */
 
 import webpack from 'webpack'
-import webpackMerge from 'webpack-merge'
+import { merge } from 'webpack-merge'
 import webpackBase from './webpack.base.babel'
 import path from 'path'
 
-export default webpackMerge(webpackBase, {
+export default merge(webpackBase, {
   plugins: [],
   devtool: 'inline-source-map',
   // For Webpack Dev Sever.

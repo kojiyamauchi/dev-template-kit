@@ -3,7 +3,7 @@
 */
 
 import webpack from 'webpack'
-import webpackMerge from 'webpack-merge'
+import { merge } from 'webpack-merge'
 import webpackBase from './webpack.base.babel'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
@@ -20,7 +20,7 @@ const generateRedirect =
       ]
     : []
 
-export default webpackMerge(webpackBase, {
+export default merge(webpackBase, {
   plugins: [
     // When Minify of Production's File, Keep License Comment Out.
     new licenseInfoWebpackPlugin({ glob: '{LICENSE,license,License}*' }),
