@@ -240,7 +240,7 @@
   },
   "scripts": {
     "setup:spa": "rm webpack/webpack.gulp.** && rm gulpfile.babel.js && rm .csscomb.json && rm resource/.gitkeep && rm -rf .git",
-    "setup:static": "rm webpack/webpack.base.babel.js && rm webpack/webpack.dev.babel.js && rm webpack/webpack.pro.babel.js && rm .stylelintrc && rm resource/.gitkeep && rm .yarnclean && rm -rf .git && mkdir resource/json && mkdir resource/images && mkdir resource/favicons",
+    "setup:static": "rm webpack/webpack.base.babel.js && rm webpack/webpack.dev.babel.js && rm webpack/webpack.pro.babel.js && rm .stylelintrc.yml && rm resource/.gitkeep && rm .yarnclean && rm -rf .git && mkdir resource/json && mkdir resource/images && mkdir resource/favicons",
     "dev": "webpack-dev-server --inline --hot --config webpack/webpack.dev.babel.js --mode development",
     "build": "webpack --config webpack/webpack.pro.babel.js --mode production",
     "jest": "jest --passWithNoTests",
