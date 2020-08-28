@@ -2,7 +2,6 @@ delivery/*
 !delivery/.gitkeep
 resource/css
 resource/maps
-.github/workflows/release.yml
 yarn.lock
 node_modules/
 .history/
