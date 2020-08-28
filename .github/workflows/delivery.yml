@@ -12,7 +12,7 @@ env:
   # if: EXAMPLE_ENV == 'true'
   # ```
   LAUNCH_BUILD: off # Launch Build. [ on, off ]
-  BUILD_TYPE: spa # Build Type. [ spa, ssg, static ]
+  BUILD_TYPE: spa # Build Type. [ spa, static ]
   LAUNCH_DEPLOY: off # Launch Deployment. [ on, off ]
   DEPLOY_TYPE: github-pages # Deploy Type. [ github-pages, netlify, ftp ]
   ENDPOINT_GITHUB_PAGES: # When Using GitHub Pages, Add Endpoint.
@@ -54,9 +54,6 @@ jobs:
       - name: Build SPA
         if: env.LAUNCH_BUILD == 'on' && env.BUILD_TYPE == 'spa'
         run: yarn build
-      - name: Build SSG
-        if: env.LAUNCH_BUILD == 'on' && env.BUILD_TYPE == 'ssg'
-        run: gatsby build
       - name: Build Static
         if: env.LAUNCH_BUILD == 'on' && env.BUILD_TYPE == 'static'
         run: gulp onBuild

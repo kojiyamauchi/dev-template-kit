@@ -8,7 +8,7 @@ env:
   LAUNCH_JEST: off # Launch Jest. [ on, off ]
   LAUNCH_ESLINT: off # Launch ESLint. [ on, off ]
   LAUNCH_BUILD: off # Launch Build. [ on, off ]
-  BUILD_TYPE: spa # Build Type. [ spa, ssg, static ]
+  BUILD_TYPE: spa # Build Type. [ spa, static ]
 
 jobs:
   jest-and-eslint:
@@ -87,9 +87,6 @@ jobs:
       - name: Build SPA
         if: env.LAUNCH_BUILD == 'on' && env.BUILD_TYPE == 'spa'
         run: yarn build
-      - name: Build SSG
-        if: env.LAUNCH_BUILD == 'on' && env.BUILD_TYPE == 'ssg'
-        run: gatsby build
       - name: Build Static
         if: env.LAUNCH_BUILD == 'on' && env.BUILD_TYPE == 'static'
         run: gulp onBuild
