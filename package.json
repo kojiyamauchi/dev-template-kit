@@ -246,7 +246,7 @@
     "jest": "jest --passWithNoTests",
     "remove-fasters-cache": "rm -rf node_modules/.cache/hard-source/",
     "check-pkg": "ncu",
-    "update-pkg": "ncu '/^(?!(styled-components|@add-ignore-modules)).*$/' -u",
+    "update-pkg": "ncu '/^(?!(styled-components|@typescript-eslint)).*$/' -u",
     "re-install": "rm yarn.lock && rm -rf node_modules && yarn install"
   }
 }
