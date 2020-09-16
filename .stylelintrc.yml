@@ -16,6 +16,10 @@ rules:
   block-no-empty: null
   number-leading-zero: null
   property-no-vendor-prefix: null
+  value-no-vendor-prefix:
+    - true
+    - ignoreValues:
+      - fill-available
   value-keyword-case:
     - lower
     - ignoreKeywords: dummyValue
